@@ -1,0 +1,42 @@
+.headerContainer {
+    height: 7.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 10%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-dark);
+    color: var(--primary-ligth);
+
+    .textLogo {
+        font-family: var(--font-mont);
+        font-size: 24px;
+        font-style: italic;
+    }
+
+    .navigationList {
+        display: flex;
+        flex-direction: row;
+        gap: 4.5rem;
+        justify-content: center;
+        list-style: none;
+
+        a {
+            font-size: 18px;
+            text-decoration: none;
+            color: var(--primary-dark);
+
+            &:hover {
+                color: var(--black);
+            }
+        }
+    }
+
+    .authControlContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+    }
+}
