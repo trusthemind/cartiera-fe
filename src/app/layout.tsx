@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.scss";
-import ThemeProvider from "@/src/components/ThemeProvider";
+import ThemeProvider from "../components/ThemeProvider";
 import { AppHeader as Header } from "@/src/components/AppHeader"; 
 
 export const metadata: Metadata = {

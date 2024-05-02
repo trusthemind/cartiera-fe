@@ -10,7 +10,16 @@ const ThemeContext = createContext<{}>({} as any);
 export const useTheme = () => useContext(ThemeContext);
 
 const theme: ThemeConfig = {
-  token: { borderRadius: 16, fontFamily: "var(--font-archivo)", fontSize: 16,colorPrimary:"var(--primary-dark)" },
+  token: {
+    borderRadius: 16,
+    fontFamily: "var(--font-mont)",
+    fontSize: 16,
+    colorPrimary: "#eab4f7",
+    colorPrimaryHover: "#c78ed6",
+    colorPrimaryActive: "#c78ed6",
+    colorError:"#ef233c",
+  },
+  components: { Input: { paddingInline: 12, controlHeight: 40 }, Typography: { fontSize: 14 } },
 };
 
 //! optization for loading antd theme without broken styles first

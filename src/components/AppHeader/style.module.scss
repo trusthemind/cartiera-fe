@@ -3,11 +3,11 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 0 10%;
     justify-content: space-between;
     align-items: center;
     background-color: var(--primary-dark);
     color: var(--primary-ligth);
+    border-bottom: 1px solid var(--primary-ligth);
 
     .textLogo {
         font-family: var(--font-mont);
@@ -25,10 +25,10 @@
         a {
             font-size: 18px;
             text-decoration: none;
-            color: var(--primary-dark);
+            color: var(--purple);
 
             &:hover {
-                color: var(--black);
+                color: var(--primary-ligth);
             }
         }
     }
