@@ -4,6 +4,7 @@ import React, { createContext, FC, PropsWithChildren, useContext, useMemo, useSt
 
 import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
 import { useServerInsertedHTML } from "next/navigation";
+import StoreProvider from "@/src/redux/provider";
 
 const ThemeContext = createContext<{}>({} as any);
 
@@ -17,7 +18,7 @@ const theme: ThemeConfig = {
     colorPrimary: "#eab4f7",
     colorPrimaryHover: "#c78ed6",
     colorPrimaryActive: "#c78ed6",
-    colorError:"#ef233c",
+    colorError: "#ef233c",
   },
   components: { Input: { paddingInline: 12, controlHeight: 40 }, Typography: { fontSize: 14 } },
 };
@@ -37,11 +38,13 @@ const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
   });
 
   return (
-    <StyleProvider cache={cache} hashPriority="high">
-      <ConfigProvider theme={theme}>
-        <ThemeContext.Provider value={{}}>{children}</ThemeContext.Provider>
-      </ConfigProvider>
-    </StyleProvider>
+    <StoreProvider>
+      <StyleProvider cache={cache} hashPriority="high">
+        <ConfigProvider theme={theme}>
+          <ThemeContext.Provider value={{}}>{children}</ThemeContext.Provider>
+        </ConfigProvider>
+      </StyleProvider>
+    </StoreProvider>
   );
 };
 

@@ -7,8 +7,10 @@ import s from "./style.module.scss";
 import { Button, Typography } from "antd";
 import Link from "next/link";
 import { AppRoutes } from "@/src/constants/constants";
+import { useLazyRegistrationQuery } from "@/src/api/auth";
 
 export const RegistrationForm = () => {
+  const [registerTrigger, { data, isLoading, isError }] = useLazyRegistrationQuery();
   const {
     register,
     watch,
@@ -21,12 +23,18 @@ export const RegistrationForm = () => {
   });
 
   const onSubmit: SubmitHandler<registrationFormValues> = async (data) => {
-    console.log(data.email);
-    console.log(watch("email"));
+    registerTrigger({ name: data.name, email: data.email, password: data.password }, true);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
+      <CustomInput
+        name="name"
+        placeholder="Username"
+        type="text"
+        control={control}
+        error={errors.name}
+      />
       <CustomInput
         name="email"
         placeholder="Email"
@@ -53,7 +61,7 @@ export const RegistrationForm = () => {
         <br />
         <Link
           href={AppRoutes.Login}
-          style={{ color: "var(--purple-dark)", textDecoration: "underline"}}
+          style={{ color: "var(--purple-dark)", textDecoration: "underline" }}
         >
           Login
         </Link>
