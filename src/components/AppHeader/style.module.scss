@@ -1,26 +1,27 @@
 .headerContainer {
-    height: 7.5rem;
+    background-color: var(--primary-dark);
     width: 100%;
+    padding: 2rem 8rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-dark);
-    color: var(--primary-ligth);
-    border-bottom: 1px solid var(--primary-ligth);
+    justify-content: space-between;
+
 
     .textLogo {
         font-family: var(--font-mont);
         font-size: 24px;
         font-style: italic;
+        color: var(--primary-ligth);
     }
 
     .navigationList {
         display: flex;
         flex-direction: row;
         gap: 4.5rem;
-        justify-content: center;
         list-style: none;
+        position: relative;
+        right: 5rem;
 
         a {
             font-size: 18px;
@@ -29,6 +30,7 @@
 
             &:hover {
                 color: var(--primary-ligth);
+                text-decoration: underline;
             }
         }
     }

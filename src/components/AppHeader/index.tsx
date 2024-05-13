@@ -26,7 +26,7 @@ export const AppHeader = () => {
       <div className={s.authControlContainer}>
         {/* {!IsHome && <ThemeSwitcher />} */}
         <Avatar
-          style={{ backgroundColor: "var(--purple)",color: "var(--black)" }}
+          style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
           icon={<UserOutlined />}
         />
       </div>
