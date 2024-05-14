@@ -19,7 +19,7 @@
   --white: #fff;
   --yellow: #f2f99c;
   --purple: #eab4f7;
-  --purple-dark:#c78ed6;
+  --purple-dark: #c78ed6;
   --error: #ef233c;
 
   --mobile: 475px;
@@ -40,9 +40,12 @@ body {
 
 main {
   height: 100%;
-  min-height: 28rem;
+  min-height: 40rem;
+  border-top: 1px solid rgba(255,255,255,0.5  );
   padding: 1rem;
   padding-top: 4rem;
+  background: url(../../assets/images/main_bg.svg) center center no-repeat;
+  background-size: cover;
 }
 
 .formContainer {

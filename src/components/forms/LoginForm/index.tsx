@@ -1,5 +1,5 @@
 "use client";
-import { loginFormValues, LoginSchema } from "@/utils/validation/loginSchema";
+import { loginFormValues, LoginSchema } from "@/src/app/utils/validation/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CustomInput } from "../../CustomInput";
