@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.scss";
 import ThemeProvider from "../components/ThemeProvider";
-import { AppHeader as Header } from "@/src/components/AppHeader"; 
+import { AppHeader as Header } from "@/src/components/AppHeader";
+import { AppFoooter as Footer } from "../components/AppFooter";
 
 export const metadata: Metadata = {
   title: "Cartiera sales",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <body>
           <Header />
           {children}
+          <Footer />
         </body>
       </ThemeProvider>
     </html>

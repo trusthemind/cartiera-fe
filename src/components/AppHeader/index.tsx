@@ -1,13 +1,12 @@
 "use client";
 import s from "./style.module.scss";
-import { AppRoutes, NavigationList, Theme } from "@/src/constants/constants";
+import { AppRoutes, NavigationList } from "@/src/constants/constants";
 import Link from "next/link";
 import Avatar from "antd/es/avatar";
-import { ThemeSwitcher } from "../ThemeSwitcher";
 import cn from "classnames";
 import { useCurrentPathEqual } from "@/src/helpers/pathEqual";
 import { UserOutlined } from "@ant-design/icons";
-import { Input } from "antd";
+import { Button } from "antd";
 
 export const AppHeader = () => {
   const { isEqual: IsHome } = useCurrentPathEqual(AppRoutes.Home);
@@ -25,6 +24,16 @@ export const AppHeader = () => {
       </ul>
       <div className={s.authControlContainer}>
         {/* {!IsHome && <ThemeSwitcher />} */}
+        <Button
+          href={AppRoutes.Login}
+          type="primary"
+          style={{
+            minWidth: "6rem",
+            color: "var(--primary-dark)",
+          }}
+        >
+          Login
+        </Button>
         <Avatar
           style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
           icon={<UserOutlined />}
