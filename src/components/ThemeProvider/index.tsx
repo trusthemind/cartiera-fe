@@ -20,7 +20,11 @@ const theme: ThemeConfig = {
     colorPrimaryActive: "#c78ed6",
     colorError: "#ef233c",
   },
-  components: { Input: { paddingInline: 12, controlHeight: 40 }, Typography: { fontSize: 14 } },
+  components: {
+    Input: { paddingInline: 12, controlHeight: 40 },
+    Typography: { fontSize: 14 },
+
+  },
 };
 
 //! optization for loading antd theme without broken styles first
