@@ -1,9 +1,9 @@
 import { api } from "..";
-import { LoginReq, RegisterReq } from "./auth.types";
+import { LoginReq, RegisterReq, Token } from "./auth.types";
 
 const authApi = api.injectEndpoints({
   endpoints: (build) => ({
-    login: build.query<any, LoginReq>({
+    login: build.query<Token, LoginReq>({
       query: ({ email, password }) => ({
         url: "/auth/login",
         method: "POST",
@@ -12,7 +12,7 @@ const authApi = api.injectEndpoints({
       providesTags: ["Auth"],
       //   invalidatesTags: ["Auth"],
     }),
-    registration: build.query<any, RegisterReq>({
+    registration: build.query<Token, RegisterReq>({
       query: ({ name, email, password }) => ({
         url: "/auth/registration",
         method: "POST",

@@ -2,7 +2,7 @@ export enum AppRoutes {
   Home = "/",
   Profile = "/profile",
   Login = "/auth/login",
-  Register = "auth/registration",
+  Register = "/auth/registration",
   Cars = "/cars",
   Details = "/details",
 }

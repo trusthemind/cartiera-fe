@@ -7,9 +7,12 @@ import Link from "next/link";
 import { AppRoutes } from "@/src/constants/constants";
 import { Button, Typography } from "antd";
 import { useLazyLoginQuery } from "@/src/api/auth";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export const LoginForm = () => {
-  const [loginTrigger, { data, isLoading, isError }] = useLazyLoginQuery();
+  const [loginTrigger, { data: loginData, isError: loginError }] = useLazyLoginQuery();
+  const { push } = useRouter();
   const {
     register,
     watch,
@@ -21,9 +24,23 @@ export const LoginForm = () => {
     mode: "onSubmit",
   });
 
-  const onSubmit: SubmitHandler<loginFormValues> = async (data) => {
-    loginTrigger({ email: data.email, password: data.password }, true);
+ 
+  const onSubmit: SubmitHandler<loginFormValues> = async (data, e) => {
+    console.log("Asdasd");
+    await loginTrigger({ email: data.email, password: data.password }, true);
+    console.log(loginData?.token);
+
+    if (loginData) {
+      const { token } = loginData;
+      console.log(token);
+      Cookies.set("key", token, { secure: true, expires: 1 });
+      push(AppRoutes.Home);
+    }
   };
+
+  if (loginError) {
+    return <p>Loading</p>;
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>

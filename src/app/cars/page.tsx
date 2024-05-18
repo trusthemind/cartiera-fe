@@ -1,5 +1,5 @@
 const CarsPage = () => {
-  return <>ASDASDASDASD</>;
+  return <></>;
 };
 
 export default CarsPage;
