@@ -1,46 +1,37 @@
-import {
-  createApi,
-  type FetchArgs,
-  fetchBaseQuery,
-  type FetchBaseQueryError,
-  type BaseQueryFn,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "../redux/store";
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
   credentials: "same-origin",
   prepareHeaders(headers, { getState, endpoint }) {
     headers.set("User-Agent", navigator.userAgent);
-    console.log(headers,"headers")
-    if (endpoint === "login") {
+    const key = (getState() as RootState).auth.token;
+
+    if (endpoint === "login" || endpoint === "registration") {
       return headers;
     }
-    if (endpoint === "registration") {
-      return headers;
-    }
-    const key ="Asdasd";
+
     if (key) {
-      headers.set("Authorization", key.toString() ?? "");
+      headers.set("Authorization", key.toString());
     }
+
     return headers;
   },
 });
 
-const baseQueryWithResult: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions
-) => {
-  const result = await baseQuery(args, api, extraOptions);
-  return result;
-};
-
+// API setup
 export const api = createApi({
-  baseQuery: baseQueryWithResult,
+  baseQuery: baseQuery,
   tagTypes: ["Auth", "Details", "Cars", "Engines", "Payments", "PaymentMethod"],
 
-  refetchOnFocus: true,
-  endpoints: () => ({}),
+  refetchOnFocus: true, // Adjust based on your application's requirements
+  refetchOnReconnect: true, // Adjust based on your application's requirements
+  refetchOnMountOrArgChange: true, // Adjust based on your application's requirements
+  endpoints: () => ({}), // Define your endpoints here
 });
 
+// Injecting endpoints if needed (this can be removed if not dynamically injecting endpoints)
 api.injectEndpoints({ endpoints: () => ({}) });
+
+export default api;

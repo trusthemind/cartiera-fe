@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
 export const LoginForm = () => {
-  const [loginTrigger, { data: loginData, isError: loginError }] = useLazyLoginQuery();
+  const [loginTrigger, { data: loginData, isLoading: loginLoading, isError: loginError }] =
+    useLazyLoginQuery();
   const { push } = useRouter();
   const {
     register,
@@ -24,23 +25,19 @@ export const LoginForm = () => {
     mode: "onSubmit",
   });
 
- 
   const onSubmit: SubmitHandler<loginFormValues> = async (data, e) => {
-    console.log("Asdasd");
-    await loginTrigger({ email: data.email, password: data.password }, true);
-    console.log(loginData?.token);
+    await loginTrigger({ email: data.email, password: data.password });
 
-    if (loginData) {
-      const { token } = loginData;
-      console.log(token);
-      Cookies.set("key", token, { secure: true, expires: 1 });
-      push(AppRoutes.Home);
-    }
+      console.log(loginData)
+      // Cookies.set("key", token, { secure: true, expires: 1 });
+      // push(AppRoutes.Home);
   };
-
-  if (loginError) {
+  
+  if (loginLoading) 
     return <p>Loading</p>;
-  }
+  
+  if (loginError)
+    return <p>Error</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
