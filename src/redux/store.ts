@@ -1,26 +1,27 @@
-import { applyMiddleware, configureStore, } from "@reduxjs/toolkit";
-import { authSlice } from "./slices/auth";
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query/react";
 import { api } from "../api";
+import { authSlice } from "./slices/auth";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
-//! persist checker for store
-
-const authConfig = {
+const persistConfig = {
   key: "auth",
   storage,
-  whiteList: ["token"],
+  whiteList:["token"]
 };
 
-const persitedAuth = persistReducer(authConfig, authSlice.reducer);
+const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);
 
 const store = configureStore({
-  reducer: { auth: persitedAuth },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }).concat([api.middleware]) as any,
+  reducer: {
+    [api.reducerPath]: api.reducer,
+    auth: persistedAuthReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
+
+// setupListeners(store.dispatch);
 
 export default store;
 

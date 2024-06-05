@@ -4,12 +4,14 @@ export enum AppRoutes {
   Login = "/auth/login",
   Register = "/auth/registration",
   Cars = "/cars",
+  CreateCar = "/cars/create",
   Details = "/details",
+  CreateDetail = "/details/create",
 }
 
 export enum Theme {
   Light = "light",
-  Dark="dark"
+  Dark = "dark",
 }
 
 export const NavigationList = [

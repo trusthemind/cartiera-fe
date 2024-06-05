@@ -25,13 +25,12 @@ export const api = createApi({
   baseQuery: baseQuery,
   tagTypes: ["Auth", "Details", "Cars", "Engines", "Payments", "PaymentMethod"],
 
-  refetchOnFocus: true, // Adjust based on your application's requirements
-  refetchOnReconnect: true, // Adjust based on your application's requirements
-  refetchOnMountOrArgChange: true, // Adjust based on your application's requirements
-  endpoints: () => ({}), // Define your endpoints here
+  refetchOnFocus: true,
+  refetchOnReconnect: true, 
+  refetchOnMountOrArgChange: true, 
+  endpoints: () => ({}),
 });
 
-// Injecting endpoints if needed (this can be removed if not dynamically injecting endpoints)
 api.injectEndpoints({ endpoints: () => ({}) });
 
 export default api;

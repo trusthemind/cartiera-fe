@@ -10,7 +10,6 @@ import { Button } from "antd";
 
 export const AppHeader = () => {
   const { isEqual: IsHome } = useCurrentPathEqual(AppRoutes.Home);
-  console.log(AppRoutes.Details);
 
   return (
     <header className={s.headerContainer}>

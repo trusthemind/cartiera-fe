@@ -9,11 +9,14 @@ import { Button, Typography } from "antd";
 import { useLazyLoginQuery } from "@/src/api/auth";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/src/redux/slices/auth";
 
 export const LoginForm = () => {
   const [loginTrigger, { data: loginData, isLoading: loginLoading, isError: loginError }] =
     useLazyLoginQuery();
   const { push } = useRouter();
+  const dispatch = useDispatch();
   const {
     register,
     watch,
@@ -26,18 +29,20 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<loginFormValues> = async (data, e) => {
+    e?.preventDefault();
     await loginTrigger({ email: data.email, password: data.password });
 
-      console.log(loginData)
-      // Cookies.set("key", token, { secure: true, expires: 1 });
-      // push(AppRoutes.Home);
+    if (loginData) {
+      const { token } = loginData;
+      dispatch(setCredentials({ token: token, username: "user" }));
+      Cookies.set("access", token, { secure: true, expires: 1 });
+      push(AppRoutes.Home);
+    }
   };
-  
-  if (loginLoading) 
-    return <p>Loading</p>;
-  
-  if (loginError)
-    return <p>Error</p>;
+
+  if (loginLoading) return <p>Loading</p>;
+
+  if (loginError) console.log(loginError);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>

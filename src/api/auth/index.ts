@@ -20,8 +20,15 @@ const authApi = api.injectEndpoints({
       }),
       //   invalidatesTags: ["Auth"],
     }),
+    logout: build.query<void, void>({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+      //   invalidatesTags: ["Auth"],
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useLazyLoginQuery, useLazyRegistrationQuery } = authApi;
+export const { useLazyLoginQuery, useLazyRegistrationQuery, useLazyLogoutQuery } = authApi;
