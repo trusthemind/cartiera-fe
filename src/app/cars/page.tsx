@@ -1,5 +1,5 @@
 const CarsPage = () => {
-  return <></>;
+  return <main></main>;
 };
 
 export default CarsPage;
