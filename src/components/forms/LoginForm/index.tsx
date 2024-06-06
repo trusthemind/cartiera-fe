@@ -35,7 +35,7 @@ export const LoginForm = () => {
     if (loginData) {
       const { token } = loginData;
       dispatch(setCredentials({ token: token, username: "user" }));
-      Cookies.set("access", token, { secure: true, expires: 1 });
+      Cookies.set("key", token, { secure: true, expires: 1 });
       push(AppRoutes.Cars);
     }
   };
