@@ -21,7 +21,7 @@ const theme: ThemeConfig = {
     colorError: "#ef233c",
   },
   components: {
-    Input: { paddingInline: 12, controlHeight: 40 },
+    Input: { paddingInline: 12},
     Typography: { fontSize: 14 },
 
   },

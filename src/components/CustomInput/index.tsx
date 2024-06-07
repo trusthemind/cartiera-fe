@@ -1,47 +1,57 @@
 import React from "react";
-import { Controller, FieldError, useForm } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
 import { Input, Typography } from "antd";
-import FormItemLabel from "antd/es/form/FormItemLabel";
-import Password from "antd/es/input/Password";
 
-export interface CustomInputProps {
+interface CustomInputProps {
   label?: string;
-  control: any;
+  type: "text" | "password" | "number";
+  placeholder?: string;
+  error?: {
+    message?: string;
+  };
   name: string;
-  error?: FieldError;
-  rules?: Record<string, any>;
-  placeholder: string;
-  type: "text" | "password";
+  control: Control<any>;
+  rules?: any;
 }
 
-export const CustomInput = ({ label, type, placeholder, error, ...rest }: CustomInputProps) => {
+export const CustomInput: React.FC<CustomInputProps> = ({
+  label,
+  type,
+  placeholder = "",
+  error,
+  name,
+  control,
+  rules = {},
+}) => {
   return (
     <div>
       <Typography style={{ marginBottom: 4.5 }}>{label}</Typography>
       <Controller
-        name={rest.name}
-        control={rest.control}
-        rules={rest.rules}
+        name={name}
+        control={control}
+        rules={rules}
         render={({ field, fieldState }) =>
-          type === "text" ? (
+          type === "text" || type === "number" ? (
             <Input
               {...field}
               type={type}
-              status={(fieldState.error && "error") || ""}
+              status={fieldState.error ? "error" : ""}
               placeholder={placeholder}
             />
           ) : (
-            <Password
+            <Input.Password
               {...field}
-              status={(fieldState.error && "error") || ""}
+              status={fieldState.error ? "error" : ""}
               placeholder={placeholder}
-            ></Password>
+            />
           )
         }
       />
-      <Typography style={{ marginLeft: 10.5, marginTop: 2.5, color: "var(--error)" }}>
-        {error && error.message}
-      </Typography>
+      {error && error.message && (
+        <Typography style={{ marginLeft: 10.5, marginTop: 2.5, color: "var(--error)" }}>
+          {error.message}
+        </Typography>
+      )}
     </div>
   );
 };

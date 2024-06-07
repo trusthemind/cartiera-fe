@@ -11,4 +11,5 @@ export type RegisterReq = {
 
 export type Token = {
   token: string;
+  username: string;
 };

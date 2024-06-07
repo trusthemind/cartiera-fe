@@ -7,10 +7,12 @@ import cn from "classnames";
 import { useCurrentPathEqual } from "@/src/helpers/pathEqual";
 import { UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import Cookies from "js-cookie";
+import { Logout } from "@/src/helpers/logout";
 
 export const AppHeader = () => {
   const { isEqual: IsHome } = useCurrentPathEqual(AppRoutes.Home);
-
+  const key = Cookies.get("key");
   return (
     <header className={s.headerContainer}>
       <h1 className={cn(s.textLogo, { [s.textDarkLogo]: false })}>Cartiera Sales</h1>
@@ -31,7 +33,7 @@ export const AppHeader = () => {
             color: "var(--primary-dark)",
           }}
         >
-          Login
+          {"Login"}
         </Button>
         <Avatar
           style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}

@@ -33,8 +33,8 @@ export const LoginForm = () => {
     await loginTrigger({ email: data.email, password: data.password });
 
     if (loginData) {
-      const { token } = loginData;
-      dispatch(setCredentials({ token: token, username: "user" }));
+      const { token, username } = loginData;
+      dispatch(setCredentials({ token: token, username: username }));
       Cookies.set("key", token, { secure: true, expires: 1 });
       push(AppRoutes.Cars);
     }
