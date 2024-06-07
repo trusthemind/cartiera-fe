@@ -1,34 +1,40 @@
 .headerContainer {
-    height: 7.5rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     background-color: var(--primary-dark);
-    color: var(--primary-ligth);
-    border-bottom: 1px solid var(--primary-ligth);
+    width: 100%;
+    padding: 2rem 8rem;
+    display: flex;
+    top: 0;
+    z-index: 100;
+    position: sticky;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+
 
     .textLogo {
         font-family: var(--font-mont);
         font-size: 24px;
         font-style: italic;
+        color: var(--primary-ligth);
     }
 
     .navigationList {
         display: flex;
         flex-direction: row;
         gap: 4.5rem;
-        justify-content: center;
         list-style: none;
+        position: relative;
 
         a {
             font-size: 18px;
             text-decoration: none;
-            color: var(--purple);
+            color: var(--yellow);
 
             &:hover {
                 color: var(--primary-ligth);
+                text-decoration: underline;
             }
         }
     }

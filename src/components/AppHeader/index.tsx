@@ -1,18 +1,18 @@
 "use client";
 import s from "./style.module.scss";
-import { AppRoutes, NavigationList, Theme } from "@/src/constants/constants";
+import { AppRoutes, NavigationList } from "@/src/constants/constants";
 import Link from "next/link";
 import Avatar from "antd/es/avatar";
-import { ThemeSwitcher } from "../ThemeSwitcher";
 import cn from "classnames";
 import { useCurrentPathEqual } from "@/src/helpers/pathEqual";
 import { UserOutlined } from "@ant-design/icons";
-import { Input } from "antd";
+import { Button } from "antd";
+import Cookies from "js-cookie";
+import { Logout } from "@/src/helpers/logout";
 
 export const AppHeader = () => {
   const { isEqual: IsHome } = useCurrentPathEqual(AppRoutes.Home);
-  console.log(AppRoutes.Details);
-
+  const key = Cookies.get("key");
   return (
     <header className={s.headerContainer}>
       <h1 className={cn(s.textLogo, { [s.textDarkLogo]: false })}>Cartiera Sales</h1>
@@ -25,8 +25,18 @@ export const AppHeader = () => {
       </ul>
       <div className={s.authControlContainer}>
         {/* {!IsHome && <ThemeSwitcher />} */}
+        <Button
+          href={AppRoutes.Login}
+          type="primary"
+          style={{
+            minWidth: "6rem",
+            color: "var(--primary-dark)",
+          }}
+        >
+          {"Login"}
+        </Button>
         <Avatar
-          style={{ backgroundColor: "var(--purple)",color: "var(--black)" }}
+          style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
           icon={<UserOutlined />}
         />
       </div>

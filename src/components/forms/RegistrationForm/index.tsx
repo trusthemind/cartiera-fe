@@ -1,6 +1,6 @@
 "use client";
 import { CustomInput } from "@/src/components/CustomInput";
-import { registrationFormValues, RegistrationSchema } from "@/utils/validation/registrationSchema";
+import { registrationFormValues, RegistrationSchema } from "@/src/utils/validation/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Form } from "react-hook-form";
 import s from "./style.module.scss";

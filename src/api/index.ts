@@ -1,46 +1,40 @@
-import {
-  createApi,
-  type FetchArgs,
-  fetchBaseQuery,
-  type FetchBaseQueryError,
-  type BaseQueryFn,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../redux/store";
+import { cookies } from "next/headers";
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
   credentials: "same-origin",
   prepareHeaders(headers, { getState, endpoint }) {
     headers.set("User-Agent", navigator.userAgent);
-    if (endpoint === "login") {
+    const key = (getState() as RootState).auth.token;
+
+    // if (key) {
+    headers.set(
+      "Authorization",
+      `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4NzE0NjcsIm5hbWUiOiJGZWxpeCBNZWxueWsiLCJzdWIiOjN9.zHRVuVP0rvt6Z-uL1Ge7X_xojNofkNindvs1YHEBlqY"}`
+    );
+
+    // }
+    if (endpoint === "login" || endpoint === "registration") {
       return headers;
     }
-    if (endpoint === "registration") {
-      return headers;
-    }
-    const key = (getState() as RootState).auth;
-    if (key) {
-      headers.set("Authorization", key.username?.toString() ?? "");
-    }
+
     return headers;
   },
 });
 
-const baseQueryWithResult: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
-  args,
-  api,
-  extraOptions
-) => {
-  const result = await baseQuery(args, api, extraOptions);
-  return result;
-};
-
+// API setup
 export const api = createApi({
-  baseQuery: baseQueryWithResult,
+  baseQuery: baseQuery,
   tagTypes: ["Auth", "Details", "Cars", "Engines", "Payments", "PaymentMethod"],
 
   refetchOnFocus: true,
+  refetchOnReconnect: true,
+  refetchOnMountOrArgChange: true,
   endpoints: () => ({}),
 });
 
 api.injectEndpoints({ endpoints: () => ({}) });
+
+export default api;

@@ -5,21 +5,21 @@ type authState = {
   token: string | null;
 };
 
-const initialState = {
+export const authInitialState = {
   username: null,
   token: null,
 } as authState;
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: authInitialState,
   reducers: {
-    setCredentials: (state, { payload: { username, token } }: PayloadAction<any>) => {
+    setCredentials: (state, { payload: { username, token } }: PayloadAction<authState>) => {
       state.token = token;
       state.username = username;
     },
     unSetCredentials: () => {
-      initialState;
+      authInitialState;
     },
   },
 });

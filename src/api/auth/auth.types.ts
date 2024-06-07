@@ -8,3 +8,8 @@ export type RegisterReq = {
   password: string;
   name: string;
 };
+
+export type Token = {
+  token: string;
+  username: string;
+};

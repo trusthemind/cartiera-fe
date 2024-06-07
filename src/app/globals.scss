@@ -14,11 +14,12 @@
   --font-mont: Mont;
   --font-archivo: Archivo;
   --primary-dark: #030303;
-  --primary-ligth: #f;
+  --primary-ligth: #f1f1f1;
   --black: #000;
+  --white: #fff;
   --yellow: #f2f99c;
   --purple: #eab4f7;
-  --purple-dark:#c78ed6;
+  --purple-dark: #c78ed6;
   --error: #ef233c;
 
   --mobile: 475px;
@@ -33,15 +34,18 @@
 
 html,
 body {
-  max-width: 100vw;
+  height: 100%;
+  width: 100%;
   overflow-x: hidden;
 }
 
 main {
   height: 100%;
-  min-height: 28rem;
+  min-height: 40rem;
   padding: 1rem;
   padding-top: 4rem;
+  background: url(../../assets/images/main_bg.svg) center center no-repeat;
+  background-size: cover;
 }
 
 .formContainer {

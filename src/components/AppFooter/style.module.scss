@@ -1,0 +1,32 @@
+.footerContainer {
+    background-color: var(--primary-dark);
+    position: relative;
+    min-height: 4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+
+
+    .textLogo {
+        font-family: var(--font-mont);
+        font-size: 14px;
+        position: absolute;
+        top: 25%;
+        left: 7.5%;
+        font-style: italic;
+        color: var(--primary-ligth);
+    }
+
+    .navigationListRow {
+        display: flex;
+        width: 100%;
+        position: absolute;
+        top: 25%;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-direction: row;
+        text-decoration: none;
+
+        a {
+            color: var(--primary-ligth);
+        }
+    }
+}
