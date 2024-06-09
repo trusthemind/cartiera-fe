@@ -11,3 +11,9 @@ export interface ICar {
   vin_code: string;
   placement: string;
 }
+
+export interface ExICar extends ICar {
+  Photos: string;
+  owner_id: number;
+  engine_id: number;
+}

@@ -1,3 +1,4 @@
+import MapCards from "@/src/components/CarsComponents/MapCards";
 import { AppRoutes } from "@/src/constants/constants";
 import { PlusOutlined } from "@ant-design/icons";
 import { Card } from "antd";
@@ -14,6 +15,7 @@ const CarsPage = () => {
           <PlusOutlined />
           Add
         </Link>
+        <MapCards/>
       </Card>
     </main>
   );

@@ -1,9 +1,9 @@
 import { DeletedAt } from "@/src/constants/types";
 
 export interface IEngine {
-  ID: number;
-  CreatedAt: string;
-  updatedAt:string;
+  ID?: number;
+  CreatedAt?: string;
+  updatedAt?:string;
   brand: string;
   cilinders: number;
   consumption: number;
@@ -12,7 +12,7 @@ export interface IEngine {
 }
 
 export interface ExIEngine extends IEngine {
-  id: number;
+  ID: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: DeletedAt;
