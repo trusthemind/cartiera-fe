@@ -12,7 +12,7 @@ export const baseQuery = fetchBaseQuery({
     // if (key) {
     headers.set(
       "Authorization",
-      `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTc4NzE0NjcsIm5hbWUiOiJGZWxpeCBNZWxueWsiLCJzdWIiOjN9.zHRVuVP0rvt6Z-uL1Ge7X_xojNofkNindvs1YHEBlqY"}`
+      `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTgwMTE2MzgsIm5hbWUiOiJGZWxpeCBNZWxueWsiLCJzdWIiOjN9.wGhTI0WUWg6c85-hR1ggdQaWoRht8E--mzQhMcZdgO8"}`
     );
 
     // }
