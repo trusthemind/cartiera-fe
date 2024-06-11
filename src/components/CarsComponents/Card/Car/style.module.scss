@@ -36,7 +36,8 @@
             }
         }
 
-        .bottomHolder {
+        .bottomHolder,
+        .bottomHolderProfile {
             width: 100%;
             position: absolute;
             bottom: 0;
@@ -62,6 +63,10 @@
                 min-width: 8rem;
                 border: 0.5px solid var(--black);
             }
+        }
+
+        .bottomHolderProfile {
+            justify-content: flex-end;
         }
 
     }

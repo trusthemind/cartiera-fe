@@ -1,8 +1,8 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { Button, Card, Avatar, Upload, message } from "antd";
+import { Button, Card, Avatar, Upload, message, Spin } from "antd";
 import { Logout } from "@/src/helpers/logout";
-import { useGetUserInfoQuery } from "@/src/api/users";
+import { useGetUserInfoQuery, useLazyGetUserInfoQuery } from "@/src/api/users";
 import s from "./style.module.scss";
 import { UserOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
@@ -12,9 +12,15 @@ import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import Image from "next/image";
 
 export const ProfileCard: FC = () => {
-  const { data, isLoading, isError } = useGetUserInfoQuery();
-  const [trigger, { data: avatarData, isLoading: avatarLoading }] = useLazyUploadAvatarQuery();
+  const [triggerUser, { data, isLoading, isError }] = useLazyGetUserInfoQuery();
+  const [triggerUpload, { data: avatarData, isLoading: avatarLoading }] =
+    useLazyUploadAvatarQuery();
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(data?.avatar);
+
+  useEffect(() => {
+    triggerUser();
+    return () => {};
+  }, []);
 
   const handleUploadChange = (info: UploadChangeParam<UploadFile<any>>) => {
     const { file } = info;
@@ -25,7 +31,7 @@ export const ProfileCard: FC = () => {
       const formData = new FormData();
       formData.append("avatar", file.originFileObj as File);
 
-      trigger(formData);
+      triggerUpload(formData);
       const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "") ?? "");
       setAvatarUrl(newAvatarUrl);
     }
@@ -34,21 +40,25 @@ export const ProfileCard: FC = () => {
   useEffect(() => {
     const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "") ?? "");
     setAvatarUrl(newAvatarUrl);
+    triggerUser();
   }, [data, avatarData]);
 
   console.log(avatarUrl, data?.avatar);
 
-  if (isLoading) return "Is loading...";
+  if (isLoading && avatarLoading) return <Spin />;
 
   return (
     <div className={s.userHolder}>
       <Avatar
-      shape="square"
+        shape="square"
         src={avatarUrl}
         className={s.avatar}
         icon={
           <UserOutlined
-            style={{ background: "var(--purple)", color: "var(--black)", scale: "2.5" }}
+            style={{
+              color: "var(--black)",
+              scale: "2.75",
+            }}
           />
         }
       />
