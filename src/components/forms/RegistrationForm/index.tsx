@@ -70,7 +70,7 @@ export const RegistrationForm = () => {
         htmlType="submit"
         type="primary"
         size="large"
-        style={{ width: "100%", marginTop: "2rem", color: "black" }}
+        style={{ width: "100%", marginTop: "2rem" }}
       >
         Submit
       </Button>
