@@ -1,34 +1,13 @@
-"use client";
-import { Logout } from "@/src/helpers/logout";
-import { useAppSelector } from "@/src/redux/hooks";
-import { Button, Card } from "antd";
+import { ProfileCard } from "@/src/components/ProfileCard";
+import { Card, Typography } from "antd";
 
 const ProfilePage = () => {
-  const { username } = useAppSelector((s) => s.auth);
   return (
     <main>
-      <Card
-        styles={{
-          body: {
-            minHeight: "10rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "1rem",
-          },
-        }}
-      >
-        {username}
-        <Button
-          onClick={Logout}
-          type="primary"
-          style={{
-            minWidth: "6rem",
-            color: "var(--primary-dark)",
-          }}
-        >
-          {"Logout"}
-        </Button>
+      <Card>
+        <Typography style={{ fontSize: 20, fontWeight: "bold" }}>User Information</Typography>
+        <ProfileCard />
+        <Typography style={{ fontSize: 20, fontWeight: "bold" }}>My cars</Typography>
       </Card>
     </main>
   );
