@@ -1,6 +1,6 @@
 import { ResponceMessage } from "@/src/constants/types";
 import { api } from "..";
-import { ExIEngine, IEngine } from "./engines.types";
+import { EditEngine, ExIEngine, IEngine } from "./engines.types";
 import Cookies from "js-cookie";
 
 const enginesApi = api.injectEndpoints({
@@ -9,7 +9,7 @@ const enginesApi = api.injectEndpoints({
       query: (brand) => ({
         url: "/engine",
         method: "GET",
-        params: {brand},
+        params: { brand },
       }),
       providesTags: ["Engines", "Cars"],
     }),
@@ -17,6 +17,20 @@ const enginesApi = api.injectEndpoints({
       query: ({ name, fuel, cilinders, consumption, brand }) => ({
         url: "/engine/create",
         method: "POST",
+        body: {
+          name,
+          fuel,
+          brand,
+          consumption,
+          cilinders,
+        },
+      }),
+      providesTags: ["Engines", "Cars"],
+    }),
+    updateEngine: build.query<ResponceMessage | ExIEngine, EditEngine>({
+      query: ({ ID, name, fuel, cilinders, consumption, brand }) => ({
+        url: `/engine/update/${ID}`,
+        method: "PUT",
         body: {
           name,
           fuel,
@@ -43,4 +57,5 @@ export const {
   useLazyDeleteEngineByIDQuery,
   useLazyGetByBrandEnignesQuery,
   useLazyPostEngineQuery,
+  useLazyUpdateEngineQuery,
 } = enginesApi;

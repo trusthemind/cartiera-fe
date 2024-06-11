@@ -1,17 +1,22 @@
 "use client";
-import { FC } from "react";
-import { Table, TableProps, Button, message } from "antd";
-import { useGetByBrandEnignesQuery, useLazyDeleteEngineByIDQuery } from "@/src/api/engines";
-import { IEngine } from "@/src/api/engines/engines.types";
-import { DeleteOutlined } from "@ant-design/icons";
+import { FC, useState } from "react";
+import { Table, TableProps, Button, message, Modal, Form, Input } from "antd";
+import { useGetByBrandEnignesQuery, useLazyDeleteEngineByIDQuery, useLazyUpdateEngineQuery } from "@/src/api/engines";
+import { EditEngine, IEngine } from "@/src/api/engines/engines.types";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import s from "../style.module.scss";
 
 export const EngineTable: FC = () => {
+  const [form] = Form.useForm();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [currentEngine, setCurrentEngine] = useState<IEngine | null>(null);
+
   const columns: TableProps<IEngine>["columns"] = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <b style={{ color: "var(--purple)" }}>{text}</b>,
     },
     {
       title: "Brand",
@@ -39,16 +44,21 @@ export const EngineTable: FC = () => {
       dataIndex: "actions",
       key: "actions",
       render: (_, record) => (
-        <Button type="default" danger onClick={() => record.ID && handleDelete(record.ID)}>
-          <DeleteOutlined />
-        </Button>
+        <div className={s.action}>
+          <Button type="default" onClick={() => record.ID && handleEdit(record)}>
+            <EditOutlined />
+          </Button>
+          <Button type="default" danger onClick={() => record.ID && handleDelete(record.ID)}>
+            <DeleteOutlined />
+          </Button>
+        </div>
       ),
     },
   ];
 
   const { data: engineData, isLoading, isError } = useGetByBrandEnignesQuery();
-  const [triggerDelete, { isLoading: isDeleting, isError: deleteError }] =
-    useLazyDeleteEngineByIDQuery();
+  const [triggerDelete, { isLoading: isDeleting }] = useLazyDeleteEngineByIDQuery();
+  const [triggerUpdate, { isLoading: isUpdating }] = useLazyUpdateEngineQuery();
 
   const handleDelete = async (id: number) => {
     try {
@@ -59,14 +69,59 @@ export const EngineTable: FC = () => {
     }
   };
 
+  const handleEdit = (record: IEngine) => {
+    setCurrentEngine(record);
+    form.setFieldsValue(record);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const values = await form.validateFields();
+      await triggerUpdate({ ...values, ID: currentEngine?.ID });
+      message.success("Engine updated successfully");
+      setIsModalOpen(false);
+      setCurrentEngine(null);
+    } catch (error) {
+      message.error("Failed to update engine");
+    }
+  };
+
   return (
-    <Table
-      columns={columns}
-      dataSource={engineData?.data}
-      loading={isLoading || isDeleting}
-      rowKey={(record) => record.ID ?? 0}
-      style={{ backgroundColor: "white", borderRadius: "1rem" }}
-      pagination={{ position: ["bottomCenter"], className: "pagination-centered" }}
-    ></Table>
+    <>
+      <Table
+        columns={columns}
+        dataSource={engineData?.data}
+        loading={isLoading || isDeleting || isUpdating}
+        rowKey={(record) => record.ID ?? 0}
+        style={{ backgroundColor: "white", borderRadius: "1rem" }}
+        pagination={{ position: ["bottomCenter"], className: "pagination-centered" }}
+      />
+      <Modal
+        title="Edit Engine"
+        visible={isModalOpen}
+        onOk={handleUpdate}
+        onCancel={() => setIsModalOpen(false)}
+        okText="Save"
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input the engine name!" }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="brand" label="Brand" rules={[{ required: true, message: "Please input the brand!" }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="fuel" label="Fuel" rules={[{ required: true, message: "Please input the fuel type!" }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="cilinders" label="Cilinders">
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="consumption" label="Consumption" rules={[{ required: true, message: "Please input the consumption!" }]}>
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
 };

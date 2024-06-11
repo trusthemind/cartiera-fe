@@ -5,6 +5,7 @@ import Image from "next/image";
 import s from "./style.module.scss";
 import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import cn from "classnames";
+import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
 export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfile }) => {
   const [photos, setPhotos] = useState<string[]>([]);
@@ -66,19 +67,22 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
                 </p>
               </Card>
             )}
-            <Button type="primary" className={s.bottomBtn}>
-              More
-            </Button>
-            {isProfile && (
-              <Button
-                type="default"
-                className={s.bottomBtn}
-                style={{ background: "var(--error)" }}
-                onClick={() => {}}
-              >
-                Delete
+            <div className={s.buttonsControl}>
+              <Button type="primary" className={s.moreInfo}>
+                <InfoCircleOutlined />
+                More
               </Button>
-            )}
+              {isProfile && (
+                <Button
+                  type="default"
+                  className={s.bottomBtn}
+                  style={{ color: "var(--error)", border: "1px solid var(--error)" }}
+                  onClick={() => {}}
+                >
+                  <DeleteOutlined />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
