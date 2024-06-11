@@ -1,5 +1,5 @@
 import { api } from "..";
-import { LoginReq, RegisterReq, Token } from "./auth.types";
+import {  LoginReq, RegisterReq, Token } from "./auth.types";
 
 const authApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -20,6 +20,7 @@ const authApi = api.injectEndpoints({
       }),
       //   invalidatesTags: ["Auth"],
     }),
+   
     logout: build.query<void, void>({
       query: () => ({
         url: "/auth/logout",
@@ -31,4 +32,8 @@ const authApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useLazyLoginQuery, useLazyRegistrationQuery, useLazyLogoutQuery } = authApi;
+export const {
+  useLazyLoginQuery,
+  useLazyRegistrationQuery,
+  useLazyLogoutQuery,
+} = authApi;

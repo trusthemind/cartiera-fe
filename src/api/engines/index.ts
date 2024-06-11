@@ -5,10 +5,11 @@ import Cookies from "js-cookie";
 
 const enginesApi = api.injectEndpoints({
   endpoints: (build) => ({
-    getByBrandEnignes: build.query<{ data: IEngine[] }, { brand?: string }>({
-      query: ({ brand }) => ({
-        url: "/engine" + (brand ? `?brand=${brand}` : ""),
+    getByBrandEnignes: build.query<{ data: IEngine[] }, string | void>({
+      query: (brand) => ({
+        url: "/engine",
         method: "GET",
+        params: {brand},
       }),
       providesTags: ["Engines", "Cars"],
     }),

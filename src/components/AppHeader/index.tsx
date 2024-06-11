@@ -35,10 +35,12 @@ export const AppHeader = () => {
         >
           {"Login"}
         </Button>
-        <Avatar
-          style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
-          icon={<UserOutlined />}
-        />
+        <Link href={AppRoutes.Profile}>
+          <Avatar
+            style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
+            icon={<UserOutlined />}
+          />
+        </Link>
       </div>
     </header>
   );

@@ -12,6 +12,7 @@ interface CustomInputProps {
   name: string;
   control: Control<any>;
   rules?: any;
+  valueType?: "string" | "number";
 }
 
 export const CustomInput: React.FC<CustomInputProps> = ({
@@ -22,6 +23,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
   name,
   control,
   rules = {},
+  valueType = "string", 
 }) => {
   return (
     <div>
@@ -35,6 +37,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
             <Input
               {...field}
               type={type}
+              value={valueType === "number" ? +field.value : field.value}
               status={fieldState.error ? "error" : ""}
               placeholder={placeholder}
             />

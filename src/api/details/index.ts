@@ -1,18 +1,15 @@
 import { ResponceMessage } from "@/src/constants/types";
 import { api } from "..";
 import { IDetails } from "./details.types";
+import { IEngine } from "../engines/engines.types";
 
 const detailsApi = api.injectEndpoints({
   endpoints: (build) => ({
-    postDetails: build.query<ResponceMessage, IDetails>({
-      query: ({ name, condition, price }) => ({
+    postDetails: build.query<ResponceMessage, FormData>({
+      query: (formData) => ({
         url: "details/create",
         method: "POST",
-        body: {
-          name,
-          condition,
-          price,
-        },
+        body: formData,
       }),
       providesTags: ["Details", "Cars"],
     }),

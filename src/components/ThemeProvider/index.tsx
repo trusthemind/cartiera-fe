@@ -21,9 +21,11 @@ const theme: ThemeConfig = {
     colorError: "#ef233c",
   },
   components: {
-    Input: { paddingInline: 12},
+    Input: { paddingInline: 12 },
     Typography: { fontSize: 14 },
-
+    Upload: {
+      fontSize: 14,
+    },
   },
 };
 

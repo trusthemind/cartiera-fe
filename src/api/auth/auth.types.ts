@@ -13,3 +13,11 @@ export type Token = {
   token: string;
   username: string;
 };
+
+export interface IUser {
+  name: string;
+  email: string;
+  customer_id: string;
+  avatar: string;
+  is_admin: boolean;
+}

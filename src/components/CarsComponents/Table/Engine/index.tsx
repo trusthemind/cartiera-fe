@@ -39,18 +39,18 @@ export const EngineTable: FC = () => {
       dataIndex: "actions",
       key: "actions",
       render: (_, record) => (
-        <Button type="default" danger onClick={() => handleDelete(record.ID)}>
+        <Button type="default" danger onClick={() => record.ID && handleDelete(record.ID)}>
           <DeleteOutlined />
         </Button>
       ),
     },
   ];
 
-  const { data: engineData, isLoading, isError } = useGetByBrandEnignesQuery({ brand: "" });
+  const { data: engineData, isLoading, isError } = useGetByBrandEnignesQuery();
   const [triggerDelete, { isLoading: isDeleting, isError: deleteError }] =
     useLazyDeleteEngineByIDQuery();
 
-  const handleDelete = async (id: number ) => {
+  const handleDelete = async (id: number) => {
     try {
       await triggerDelete(+id);
       message.success("Engine deleted successfully");
@@ -64,7 +64,7 @@ export const EngineTable: FC = () => {
       columns={columns}
       dataSource={engineData?.data}
       loading={isLoading || isDeleting}
-      rowKey={(record) => record.ID}
+      rowKey={(record) => record.ID ?? 0}
       style={{ backgroundColor: "white", borderRadius: "1rem" }}
       pagination={{ position: ["bottomCenter"], className: "pagination-centered" }}
     ></Table>
