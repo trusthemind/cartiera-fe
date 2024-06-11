@@ -100,7 +100,7 @@ export const EngineForm: FC = () => {
           htmlType="submit"
           type="primary"
           size="large"
-          style={{ width: "100%", marginTop: "2rem", color: "black" }}
+          style={{ width: "100%", marginTop: "2rem" }}
         >
           Submit
         </Button>
@@ -111,7 +111,7 @@ export const EngineForm: FC = () => {
           style={{
             width: "100%",
             marginTop: "2rem",
-            backgroundColor: "black",
+            backgroundColor: "var(--black)",
             color: "var(--purple)",
           }}
         >

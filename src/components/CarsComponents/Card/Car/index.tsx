@@ -4,8 +4,10 @@ import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import s from "./style.module.scss";
 import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
+import cn from "classnames";
+import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 
-export const CarCard: FC<{ car: ExICar }> = ({ car }) => {
+export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfile }) => {
   const [photos, setPhotos] = useState<string[]>([]);
 
   useEffect(() => {
@@ -18,7 +20,6 @@ export const CarCard: FC<{ car: ExICar }> = ({ car }) => {
     setPhotos(photoUrls);
   }, [car.Photos]);
 
-  console.log(photos);
   return (
     <Card>
       <div className={s.cardContainer}>
@@ -27,7 +28,7 @@ export const CarCard: FC<{ car: ExICar }> = ({ car }) => {
           infinite
           effect="fade"
           fade
-          style={{ width: 250, height: 250}}
+          style={{ width: isProfile ? 150 : 250, height: isProfile ? 150 : 250 }}
           dotPosition="left"
         >
           {photos.map((photo: string, index: number) => (
@@ -36,8 +37,8 @@ export const CarCard: FC<{ car: ExICar }> = ({ car }) => {
               className={s.img}
               alt="car image"
               src={photo}
-              width={250}
-              height={250}
+              width={isProfile ? 150 : 250}
+              height={isProfile ? 150 : 250}
               quality={100}
             />
           ))}
@@ -52,21 +53,36 @@ export const CarCard: FC<{ car: ExICar }> = ({ car }) => {
             </p>
             <b style={{ fontSize: 24 }}>{car.price} $</b>
           </div>
-          <div className={s.bottomHolder}>
-            <Card className={s.detailsInfo} styles={{ body: { padding: "1rem" } }}>
-              <p>
-                Placement: <span>{car.placement}</span>
-              </p>
-              <p>
-                Vechicle status: <span>{car.status}</span>
-              </p>
-              <p>
-                Kilometers: <span>{car.kilometers}</span>
-              </p>
-            </Card>
-            <Button type="primary" className={s.bottomBtn}>
-              More
-            </Button>
+          <div className={cn(s.bottomHolder, { [s.bottomHolderProfile]: isProfile })}>
+            {!isProfile && (
+              <Card className={s.detailsInfo} styles={{ body: { padding: "1rem" } }}>
+                <p>
+                  Placement: <span>{car.placement}</span>
+                </p>
+                <p>
+                  Vechicle status: <span>{car.status}</span>
+                </p>
+                <p>
+                  Kilometers: <span>{car.kilometers}</span>
+                </p>
+              </Card>
+            )}
+            <div className={s.buttonsControl}>
+              <Button type="primary" className={s.moreInfo}>
+                <InfoCircleOutlined />
+                More
+              </Button>
+              {isProfile && (
+                <Button
+                  type="default"
+                  className={s.bottomBtn}
+                  style={{ color: "var(--error)", border: "1px solid var(--error)" }}
+                  onClick={() => {}}
+                >
+                  <DeleteOutlined />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>

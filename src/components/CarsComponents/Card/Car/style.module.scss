@@ -36,7 +36,8 @@
             }
         }
 
-        .bottomHolder {
+        .bottomHolder,
+        .bottomHolderProfile {
             width: 100%;
             position: absolute;
             bottom: 0;
@@ -56,12 +57,25 @@
                 }
             }
 
-            .bottomBtn {
-                height: 2.5rem;
-                color: var(--black);
-                min-width: 8rem;
-                border: 0.5px solid var(--black);
+            .buttonsControl {
+                display: flex;
+                gap: 0.25rem;
+
+
+                .moreInfo,
+                .bottomBtn {
+                    height: 2.5rem;
+                    min-width: 2.5rem;
+                }
+
+                .moreInfo {
+                    min-width: 6rem;
+                }
             }
+        }
+
+        .bottomHolderProfile {
+            justify-content: flex-end;
         }
 
     }

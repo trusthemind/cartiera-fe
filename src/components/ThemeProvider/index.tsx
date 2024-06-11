@@ -15,9 +15,9 @@ const theme: ThemeConfig = {
     borderRadius: 16,
     fontFamily: "var(--font-mont)",
     fontSize: 16,
-    colorPrimary: "#eab4f7",
-    colorPrimaryHover: "#c78ed6",
-    colorPrimaryActive: "#c78ed6",
+    colorPrimary: "#7e52ff",
+    colorPrimaryHover: "#6545c3",
+    colorPrimaryActive: "#4e3597",
     colorError: "#ef233c",
   },
   components: {
@@ -26,6 +26,9 @@ const theme: ThemeConfig = {
     Upload: {
       fontSize: 14,
     },
+    Button:{
+      colorText: "#4e3597",
+    }
   },
 };
 

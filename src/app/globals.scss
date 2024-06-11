@@ -18,8 +18,8 @@
   --black: #000;
   --white: #fff;
   --yellow: #f2f99c;
-  --purple: #eab4f7;
-  --purple-dark: #c78ed6;
+  --purple: #7e52ff;
+  --purple-dark: #6545c3;
   --error: #ef233c;
 
   --mobile: 475px;
@@ -37,14 +37,15 @@ body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+  background: url(../../assets/images/main_bg.svg) center center no-repeat;
+  background-size: cover;
+  background-color: black;
 }
 
 main {
   min-height: 100%;
   padding: 1rem;
   padding-top: 4rem;
-  background: url(../../assets/images/main_bg.svg) center center no-repeat;
-  background-size: cover;
 }
 
 .formContainer {

@@ -30,18 +30,18 @@ export const AppHeader = () => {
           type="primary"
           style={{
             minWidth: "6rem",
-            color: "var(--primary-dark)",
+            // color: "var(--primary-dark)",
           }}
         >
           {"Login"}
         </Button>
         <Link href={AppRoutes.Profile}>
           <Avatar
-            style={{ backgroundColor: "var(--purple)", color: "var(--black)" }}
+            style={{ backgroundColor: "var(--purple)" }}
             icon={<UserOutlined />}
           />
         </Link>
       </div>
-    </header>
+    </header> 
   );
 };

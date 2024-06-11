@@ -22,4 +22,4 @@ const usersApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useLazyUploadAvatarQuery, useGetUserInfoQuery } = usersApi;
+export const { useLazyUploadAvatarQuery, useLazyGetUserInfoQuery, useGetUserInfoQuery } = usersApi;

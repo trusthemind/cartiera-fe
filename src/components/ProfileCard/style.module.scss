@@ -3,14 +3,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
 
     .avatar {
         height: 250px !important;
         width: 250px !important;
-
+        background-color: var(--purple) !important;
     }
 
-    .uploadHolder {
-        margin: 0.75rem 0;
-    }
 }

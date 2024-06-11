@@ -208,7 +208,7 @@ export const CreateCarForm = () => {
           htmlType="submit"
           type="primary"
           size="large"
-          style={{ width: "100%", color: "black" }}
+          style={{ width: "100%" }}
         >
           Submit
         </Button>
@@ -216,7 +216,7 @@ export const CreateCarForm = () => {
           htmlType="reset"
           type="dashed"
           size="large"
-          style={{ width: "100%", backgroundColor: "black", color: "white" }}
+          style={{ width: "100%", backgroundColor: "var(--black)", color: "white" }}
         >
           Reset
         </Button>
