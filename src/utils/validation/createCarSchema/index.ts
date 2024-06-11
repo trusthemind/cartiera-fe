@@ -19,7 +19,7 @@ export const createCarSchema = zod.object({
     .string({ required_error: InputErrors.field.invalid })
     .min(4, InputErrors.field.lenght.min4)
     .max(24, InputErrors.field.lenght.max24),
-  engine_id: zod.string({ required_error: InputErrors.field.invalid }),
+  engine_id: zod.number({ required_error: InputErrors.field.invalid }),
   ownerNumbers: zod
     .string({ required_error: InputErrors.field.invalid })
     .transform((value) => +value),

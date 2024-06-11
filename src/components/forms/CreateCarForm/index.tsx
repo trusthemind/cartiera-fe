@@ -1,22 +1,28 @@
 "use client";
-import { AppRoutes } from "@/src/constants/constants";
-import { Button, Typography, UploadProps } from "antd";
+import { AppRoutes, CarsBrand } from "@/src/constants/constants";
+import { Button, Select, Typography, UploadProps } from "antd";
 import Link from "next/link";
 import { CustomInput } from "../../CustomInput";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { createCarSchema, carFormValues } from "@/src/utils/validation/createCarSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLazyPostDetailsQuery } from "@/src/api/details";
 import s from "./style.module.scss";
 import { useLazyCreateCarQuery } from "@/src/api/car";
+import { useLazyGetByBrandEnignesQuery } from "@/src/api/engines";
+import { ExIEngine } from "@/src/api/engines/engines.types";
 
 const { Dragger } = Upload;
 
 export const CreateCarForm = () => {
   const [fileList, setFileList] = useState<any[]>([]);
+  const [carBrand, setCarBrand] = useState<string>("");
+  const [engineState, setEngineState] = useState<{ value: number | undefined; label: string }[]>(
+    []
+  );
   const props: UploadProps = {
     name: "file",
     multiple: true,
@@ -28,9 +34,7 @@ export const CreateCarForm = () => {
         console.log(info.file, info.fileList);
       }
     },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
+    
   };
 
   const {
@@ -38,13 +42,29 @@ export const CreateCarForm = () => {
     watch,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
   } = useForm<carFormValues>({
     resolver: zodResolver(createCarSchema),
     mode: "onSubmit",
   });
   const [triggerCreateCar, { data, isLoading, isError }] = useLazyCreateCarQuery();
+  const [triggerGetEngine, { data: engineData }] = useLazyGetByBrandEnignesQuery();
 
+  useEffect(() => {
+    if (carBrand) triggerGetEngine(carBrand);
+  }, [carBrand]);
+
+  useEffect(() => {
+    const engines = engineData?.data.map((item) => ({
+      value: item.ID,
+      label: `${item.brand} ${item.name}`,
+    }));
+    if (engines) setEngineState(engines);
+  }, [carBrand, engineData]);
+  console.log(engineState);
+
+  console.log(errors);
   const onSubmit: SubmitHandler<carFormValues> = async (data, e) => {
     e?.preventDefault();
     if (data) {
@@ -60,12 +80,13 @@ export const CreateCarForm = () => {
         owner_comment: data.ownerComment,
         vin_code: data.vinCode,
         placement: data.placement,
-      }
-      formData.append("data",JSON.stringify(inputedData));
+        engine_id: data.engine_id,
+      };
+      formData.append("data", JSON.stringify(inputedData));
       fileList.forEach((file) => {
         formData.append("upload[]", file.originFileObj);
       });
-     
+
       triggerCreateCar(formData);
     }
   };
@@ -80,12 +101,21 @@ export const CreateCarForm = () => {
         <p>Drag photos here on click and select to upload</p>
       </Dragger>
       <div className={s.cardBlock}>
-        <CustomInput
+        <Controller
           name="brand"
-          placeholder="brand"
-          type="text"
           control={control}
-          error={errors.brand}
+          render={({ field }) => (
+            <Select
+              className={s.selectGroup}
+              options={CarsBrand}
+              placeholder={"Brand"}
+              value={field.value}
+              onChange={(value) => {
+                field.onChange(value);
+                setCarBrand(value);
+              }}
+            />
+          )}
         />
         <CustomInput
           name="model"
@@ -119,6 +149,7 @@ export const CreateCarForm = () => {
           control={control}
           error={errors.kilometers}
         />
+
         <CustomInput
           name="status"
           placeholder="status"
@@ -127,6 +158,21 @@ export const CreateCarForm = () => {
           error={errors.status}
         />
       </div>
+      <Controller
+        name="engine_id"
+        control={control}
+        render={({ field }) => (
+          <Select
+            className={s.selectGroup}
+            options={engineState}
+            placeholder={"Engine"}
+            value={field.value}
+            onChange={(value) => {
+              field.onChange(value);
+            }}
+          />
+        )}
+      />
       <div className={s.cardBlock}>
         <CustomInput
           name="ownerComment"
