@@ -1,6 +1,6 @@
 import { ResponceMessage } from "@/src/constants/types";
 import { api } from "..";
-import { ExICar, ICar } from "./cars.types";
+import { ExICar, ICar, Vin } from "./cars.types";
 
 const carsApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -28,7 +28,7 @@ const carsApi = api.injectEndpoints({
       providesTags: ["Cars"],
     }),
     updateCarByID: build.query<ResponceMessage, Partial<ExICar>>({
-      query: ({ID,...body}) => ({
+      query: ({ ID, ...body }) => ({
         url: `cars/update/${ID}`,
         method: "PUT",
         body,
@@ -39,6 +39,14 @@ const carsApi = api.injectEndpoints({
       query: () => ({
         url: "cars/my",
         method: "GET",
+      }),
+      providesTags: ["Cars"],
+    }),
+    getVerifyVinCode: build.query<Vin, { vin_code: string }>({
+      query: ({ vin_code }) => ({
+        url: "vincode/check",
+        method: "POST",
+        body: { vin_code },
       }),
       providesTags: ["Cars"],
     }),
@@ -53,4 +61,5 @@ export const {
   useLazyDeleteCarbyIDQuery,
   useLazyUpdateCarByIDQuery,
   useGetMyCarsQuery,
+  useLazyGetVerifyVinCodeQuery,
 } = carsApi;

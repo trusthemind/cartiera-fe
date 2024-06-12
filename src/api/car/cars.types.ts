@@ -20,3 +20,14 @@ export interface ExICar extends ICar {
   owner_id: number;
   engine_id: number;
 }
+
+export interface Vin {
+  vin: string;
+  country: string;
+  manufacturer: string;
+  region: string;
+  wmi: string;
+  vds: string;
+  vis: string;
+  years: string[];
+}
