@@ -1,14 +1,19 @@
 import { ExICar } from "@/src/api/car/cars.types";
-import { Button, Card, Carousel, Typography } from "antd";
+import { Button, Card, Carousel, Modal, Spin, Typography, Form, Input } from "antd";
 import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import s from "./style.module.scss";
 import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import cn from "classnames";
-import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { useLazyDeleteCarbyIDQuery, useLazyUpdateCarByIDQuery } from "@/src/api/car";
 
 export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfile }) => {
   const [photos, setPhotos] = useState<string[]>([]);
+  const [triggerDelete, { isLoading: isDeleting }] = useLazyDeleteCarbyIDQuery();
+  const [triggerUpdate, { isLoading: isUpdating }] = useLazyUpdateCarByIDQuery();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const images = car.Photos.split(",");
@@ -19,6 +24,29 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
     });
     setPhotos(photoUrls);
   }, [car.Photos]);
+
+  const handleDelete = async () => {
+    await triggerDelete(car.ID ?? 0);
+  };
+
+  const handleEdit = () => {
+    form.setFieldsValue(car);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdate = async (values: Partial<ExICar>) => {
+    const changedFields: Partial<ExICar> = {};
+    Object.keys(values).forEach((key) => {
+      if (values[key as keyof ExICar] !== car[key as keyof ExICar]) {
+        (changedFields[key as keyof ExICar] as any) = values[key as keyof ExICar];
+      }
+    });
+
+    await triggerUpdate({ ID: car.ID, ...changedFields });
+    setIsModalOpen(false);
+  };
+
+  if (isDeleting || isUpdating) return <Spin />;
 
   return (
     <Card>
@@ -60,7 +88,7 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
                   Placement: <span>{car.placement}</span>
                 </p>
                 <p>
-                  Vechicle status: <span>{car.status}</span>
+                  Vehicle status: <span>{car.status}</span>
                 </p>
                 <p>
                   Kilometers: <span>{car.kilometers}</span>
@@ -73,19 +101,54 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
                 More
               </Button>
               {isProfile && (
-                <Button
-                  type="default"
-                  className={s.bottomBtn}
-                  style={{ color: "var(--error)", border: "1px solid var(--error)" }}
-                  onClick={() => {}}
-                >
-                  <DeleteOutlined />
-                </Button>
+                <>
+                  <Button type="default" className={s.bottomBtn} onClick={handleEdit}>
+                    <EditOutlined />
+                  </Button>
+                  <Button
+                    type="default"
+                    className={s.bottomBtn}
+                    style={{ color: "var(--error)", border: "1px solid var(--error)" }}
+                    onClick={handleDelete}
+                  >
+                    <DeleteOutlined />
+                  </Button>
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        title="Edit Car Details"
+        visible={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        onOk={() => form.submit()}
+      >
+        <Form form={form} layout="vertical" onFinish={handleUpdate} initialValues={car}>
+          <Form.Item name="brand" label="Brand" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="car_model" label="Model" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="vin_code" label="VIN Code" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="price" label="Price" rules={[{ required: true }]}>
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item name="placement" label="Placement" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="kilometers" label="Kilometers" rules={[{ required: true }]}>
+            <Input type="number" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Card>
   );
 };

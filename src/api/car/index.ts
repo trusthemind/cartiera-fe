@@ -12,10 +12,26 @@ const carsApi = api.injectEndpoints({
       }),
       providesTags: ["Cars"],
     }),
-    getAllCars: build.query<{ data: ExICar[] }, void>({
-      query: () => ({
+    getAllCars: build.query<{ data: ExICar[] }, string | void>({
+      query: (brand) => ({
         url: "cars/all",
         method: "GET",
+        params: { brand },
+      }),
+      providesTags: ["Cars"],
+    }),
+    deleteCarbyID: build.query<ResponceMessage, number>({
+      query: (id) => ({
+        url: `cars/delete/${id}`,
+        method: "DELETE",
+      }),
+      providesTags: ["Cars"],
+    }),
+    updateCarByID: build.query<ResponceMessage, Partial<ExICar>>({
+      query: ({ID,...body}) => ({
+        url: `cars/update/${ID}`,
+        method: "PUT",
+        body,
       }),
       providesTags: ["Cars"],
     }),
@@ -30,4 +46,11 @@ const carsApi = api.injectEndpoints({
   overrideExisting: true,
 });
 
-export const { useLazyCreateCarQuery, useGetAllCarsQuery, useGetMyCarsQuery } = carsApi;
+export const {
+  useLazyCreateCarQuery,
+  useGetAllCarsQuery,
+  useLazyGetAllCarsQuery,
+  useLazyDeleteCarbyIDQuery,
+  useLazyUpdateCarByIDQuery,
+  useGetMyCarsQuery,
+} = carsApi;

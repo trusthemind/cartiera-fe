@@ -8,8 +8,8 @@ export const createCarSchema = zod.object({
     .max(24, InputErrors.field.lenght.max24),
   model: zod
     .string({ required_error: InputErrors.field.invalid })
-    .min(4, InputErrors.field.lenght.min4)
-    .max(24, InputErrors.field.lenght.max24),
+    .min(1, InputErrors.field.lenght.min1)
+    .max(8, InputErrors.field.lenght.max24),
   year: zod.string({ required_error: InputErrors.field.invalid }).transform((value) => +value),
   price: zod.string({ required_error: InputErrors.field.invalid }).transform((value) => +value),
   kilometers: zod
@@ -25,7 +25,7 @@ export const createCarSchema = zod.object({
     .transform((value) => +value),
   ownerComment: zod
     .string({ required_error: InputErrors.field.invalid })
-    .min(8, InputErrors.field.lenght.min8)
+    .min(4, InputErrors.field.lenght.min8)
     .max(24, InputErrors.field.lenght.max24),
   vinCode: zod
     .string({ required_error: InputErrors.field.invalid })

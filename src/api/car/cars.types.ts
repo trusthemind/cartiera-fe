@@ -1,4 +1,7 @@
 export interface ICar {
+  ID?: number;
+  CreatedAt?: string;
+  UpdatedAt?: string;
   owner_comment: string;
   year: number;
   owners_number: number;

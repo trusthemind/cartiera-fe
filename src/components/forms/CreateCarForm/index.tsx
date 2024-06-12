@@ -1,6 +1,6 @@
 "use client";
 import { AppRoutes, CarsBrand } from "@/src/constants/constants";
-import { Button, Select, Typography, UploadProps } from "antd";
+import { Button, message, Select, Spin, Typography, UploadProps } from "antd";
 import Link from "next/link";
 import { CustomInput } from "../../CustomInput";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -48,7 +48,7 @@ export const CreateCarForm = () => {
     resolver: zodResolver(createCarSchema),
     mode: "onSubmit",
   });
-  const [triggerCreateCar, { data, isLoading, isError }] = useLazyCreateCarQuery();
+  const [triggerCreateCar, { data: createCarData, isLoading, isError }] = useLazyCreateCarQuery();
   const [triggerGetEngine, { data: engineData }] = useLazyGetByBrandEnignesQuery();
 
   useEffect(() => {
@@ -62,9 +62,7 @@ export const CreateCarForm = () => {
     }));
     if (engines) setEngineState(engines);
   }, [carBrand, engineData]);
-  console.log(engineState);
 
-  console.log(errors);
   const onSubmit: SubmitHandler<carFormValues> = async (data, e) => {
     e?.preventDefault();
     if (data) {
@@ -88,9 +86,11 @@ export const CreateCarForm = () => {
       });
 
       triggerCreateCar(formData);
+      await message.success(createCarData?.message)
     }
   };
 
+  if (isLoading) return <Spin/>
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
       <Dragger {...props} style={{ minHeight: "14rem" }}>

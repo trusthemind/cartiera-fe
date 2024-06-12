@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FC } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { CustomInput } from "../../CustomInput";
-import { Button, Select } from "antd";
+import { Button, message, Select } from "antd";
 import s from "./style.module.scss";
-import { EngineFuel } from "@/src/constants/constants";
+import { AppRoutes, CarsBrand, EngineFuel } from "@/src/constants/constants";
+import { useRouter } from "next/navigation";
 
 const fuelOption = [
   { value: EngineFuel.Petrol, label: "Бензин" },
@@ -31,6 +32,7 @@ export const EngineForm: FC = () => {
   });
   const [enginePostTrigger, { data: engineData, isLoading: engineLoading, isError: engineError }] =
     useLazyPostEngineQuery();
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<EngineFormValues> = async (data, e) => {
     e?.preventDefault();
@@ -42,6 +44,7 @@ export const EngineForm: FC = () => {
       consumption: +data.consumption,
       cilinders: +data.cilinders,
     });
+    engineData && message.success(engineData.message);
   };
 
   if (engineLoading) return <p>Loading</p>;
@@ -49,12 +52,20 @@ export const EngineForm: FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
       <div className={s.block}>
-        <CustomInput
+      <Controller
           name="brand"
-          placeholder="Brand"
-          type="text"
           control={control}
-          error={errors.brand}
+          render={({ field }) => (
+            <Select
+              style={{width: "50%"}}
+              options={CarsBrand}
+              placeholder={"Brand"}
+              value={field.value}
+              onChange={(value) => {
+                field.onChange(value);
+              }}
+            />
+          )}
         />
         <CustomInput
           name="name"
