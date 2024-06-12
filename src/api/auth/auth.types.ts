@@ -15,6 +15,9 @@ export type Token = {
 };
 
 export interface IUser {
+  ID?: number;
+  createdAt?: string;
+  updateAt?: string;
   name: string;
   email: string;
   customer_id: string;
