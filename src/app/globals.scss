@@ -37,7 +37,7 @@ body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-  background: url(../../assets/images/main_bg.svg) center center no-repeat;
+  background: url(../../assets/images/main.bg.svg) center center no-repeat;
   background-size: cover;
   background-color: black;
 }
@@ -46,6 +46,9 @@ main {
   min-height: 100%;
   padding: 1rem;
   padding-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 }
 
 .formContainer {
