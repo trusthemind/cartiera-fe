@@ -1,4 +1,12 @@
 .main {
+    align-items: center;
+
+    .dreamCar {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
     @media (width <=768px) {
 
         .car {
