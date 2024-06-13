@@ -1,14 +1,30 @@
 .main {
-    .car {
-        margin: 0 auto;
+    @media (width <=768px) {
+
+        .car {
+            width: 44rem;
+            height: 20rem;
+        }
+
+        .dreamCar {
+            img {
+                width: 100%;
+            }
+        }
     }
 
-    .dreamCar {
-        display: flex;
-        gap: 2rem;
+    @media (width <=420px) {
 
-        @media (width <=768px) {
-            flex-direction: column;
+        .car {
+            width: 100%;
+            height: 20rem;
+        }
+
+        .dreamCar {
+            img {
+                width: 100%;
+                height: 20rem;
+            }
         }
     }
 }

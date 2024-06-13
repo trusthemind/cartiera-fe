@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className={s.main}>
       <Image quality={100} src={img} alt="image" className={s.car} />
-      <Card styles={{ body: { minHeight: "20rem" } }}>
+      <Card styles={{ body: { minHeight: "20rem" } }} className={s.mainCard}>
         <Typography style={{ fontSize: 36, textAlign: "center" }}>Welcome to Cartiera</Typography>
         <div className={s.dreamCar}>
           <Image
