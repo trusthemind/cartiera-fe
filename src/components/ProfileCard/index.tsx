@@ -4,12 +4,14 @@ import { Button, Card, Avatar, Upload, message, Spin } from "antd";
 import { Logout } from "@/src/helpers/logout";
 import { useGetUserInfoQuery, useLazyGetUserInfoQuery } from "@/src/api/users";
 import s from "./style.module.scss";
-import { UserOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
 import { RcFile, UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import { useLazyUploadAvatarQuery } from "@/src/api/users";
 import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import Image from "next/image";
+import Link from "next/link";
+import { AppRoutes } from "@/src/constants/constants";
 
 export const ProfileCard: FC = () => {
   const [triggerUser, { data, isLoading, isError }] = useLazyGetUserInfoQuery();
@@ -67,7 +69,17 @@ export const ProfileCard: FC = () => {
       </Upload>
       <h1>{data?.name}</h1>
       <b>ID: {data?.customer_id.replace("cus_", "")}</b>
-      <b style={{ color: "var(--purple)" }}>{data?.is_admin && "admin"}</b>
+      {data?.is_admin && (
+        <p>
+          Status:
+          <Link style={{ color: "var(--purple)" }} href={AppRoutes.Admin + "/p1vpcOzAQbQ"}>
+            Admin
+          </Link>
+        </p>
+      )}
+      <Button onClick={Logout} icon={<LogoutOutlined />}>
+        Logout
+      </Button>
     </div>
   );
 };

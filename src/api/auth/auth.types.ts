@@ -15,9 +15,16 @@ export type Token = {
 };
 
 export interface IUser {
+  ID?: number;
+  createdAt?: string;
+  updateAt?: string;
   name: string;
   email: string;
   customer_id: string;
   avatar: string;
   is_admin: boolean;
+}
+
+export interface RequestUser extends RegisterReq {
+  is_customer: boolean;
 }

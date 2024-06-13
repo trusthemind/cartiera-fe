@@ -16,7 +16,7 @@ export const FormTitle: FC<FormTitleProps> = ({ text, backStep }) => {
     <div className={s.titleContainer}>
       <Button
         type="link"
-        style={{ position: "absolute", left: "1rem" }}
+        style={{ position: "absolute", left: "2.5rem" }}
         href={backStep ?? AppRoutes.Home}
         icon={<SendOutlined style={{ transform: "rotate(180deg)", color: "var(--purple)" }} />}
       ></Button>

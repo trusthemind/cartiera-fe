@@ -1,28 +1,50 @@
 "use client";
 import { useGetAllCarsQuery, useGetMyCarsQuery } from "@/src/api/car";
-import { Card, Spin } from "antd";
-import { FC } from "react";
+import { Card, Select, Spin, Typography } from "antd";
+import { FC, useState, useEffect } from "react";
 import { CarCard } from "../Card/Car";
 import { ExICar } from "@/src/api/car/cars.types";
 import s from "./styles.module.scss";
-import { AppRoutes } from "@/src/constants/constants";
+import { AppRoutes, CarsBrand } from "@/src/constants/constants";
 import { useCurrentPathEqual } from "@/src/helpers/pathEqual";
 
 const MapCards: FC = () => {
   const { isEqual } = useCurrentPathEqual(AppRoutes.Profile);
-  const { data, isLoading: carsLoading } = isEqual ? useGetMyCarsQuery() : useGetAllCarsQuery();
-  const { data: carsData } = data || { data: [] };
-  console.log(carsData, isEqual);
+  const [carBrand, setCarBrand] = useState<string>("");
+  const { data, isLoading: carsLoading, refetch } = isEqual
+    ? useGetMyCarsQuery()
+    : useGetAllCarsQuery(carBrand);
 
-  if (carsLoading) return <Spin tip="Loading cars..." />;
+  useEffect(() => {
+    if (!isEqual) {
+      refetch();
+    }
+  }, [carBrand, refetch, isEqual]);
 
-  if (carsData)
-    return (
-      <div className={s.mapContainer}>
-        {carsData.map((item: ExICar, id: number) => (
-          <CarCard key={id} car={item} isProfile={isEqual} />
-        ))}
-      </div>
-    );
+  if (carsLoading) return <Spin />;
+
+  const carsData = data?.data || [];
+
+  return (
+    <div className={s.mapContainer}>
+      {!isEqual && (
+        <div>
+          <Typography>Car Brand</Typography>
+          <Select
+            style={{ minWidth: "14rem" }}
+            className={s.selectGroup}
+            options={CarsBrand}
+            placeholder="Brand"
+            value={carBrand}
+            onChange={(value) => setCarBrand(value)}
+          />
+        </div>
+      )}
+      {carsData.map((item: ExICar, id: number) => (
+        <CarCard key={id} car={item} isProfile={isEqual} />
+      ))}
+    </div>
+  );
 };
+
 export default MapCards;

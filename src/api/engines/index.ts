@@ -13,7 +13,7 @@ const enginesApi = api.injectEndpoints({
       }),
       providesTags: ["Engines", "Cars"],
     }),
-    postEngine: build.query<ResponceMessage | ExIEngine, IEngine>({
+    postEngine: build.query<ResponceMessage, IEngine>({
       query: ({ name, fuel, cilinders, consumption, brand }) => ({
         url: "/engine/create",
         method: "POST",

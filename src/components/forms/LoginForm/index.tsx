@@ -5,16 +5,19 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { CustomInput } from "../../CustomInput";
 import Link from "next/link";
 import { AppRoutes } from "@/src/constants/constants";
-import { Button, Typography } from "antd";
+import { Button, Spin, Typography, message } from "antd";
 import { useLazyLoginQuery } from "@/src/api/auth";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/src/redux/slices/auth";
+import { useEffect } from "react";
 
 export const LoginForm = () => {
-  const [loginTrigger, { data: loginData, isLoading: loginLoading, isError: loginError }] =
-    useLazyLoginQuery();
+  const [
+    loginTrigger,
+    { data: loginData, isLoading: loginLoading, isError: loginError, error: loginErrorData },
+  ] = useLazyLoginQuery();
   const { push } = useRouter();
   const dispatch = useDispatch();
   const {
@@ -31,18 +34,20 @@ export const LoginForm = () => {
   const onSubmit: SubmitHandler<loginFormValues> = async (data, e) => {
     e?.preventDefault();
     await loginTrigger({ email: data.email, password: data.password });
+  };
 
+  useEffect(() => {
     if (loginData) {
       const { token, username } = loginData;
       dispatch(setCredentials({ token: token, username: username }));
       Cookies.set("key", token, { secure: true, expires: 1 });
-      push(AppRoutes.Cars);
+      push(AppRoutes.Home);
     }
-  };
 
-  if (loginLoading) return <p>Loading</p>;
+    if (loginError) message.error("Login failed. Please try again.");
+  }, [loginData, loginError]);
 
-  if (loginError) console.log(loginError);
+  if (loginLoading) return <Spin />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
@@ -73,7 +78,7 @@ export const LoginForm = () => {
         htmlType="submit"
         type="primary"
         size="large"
-        style={{ width: "100%", marginTop: "2rem", }}
+        style={{ width: "100%", marginTop: "2rem" }}
       >
         Submit
       </Button>

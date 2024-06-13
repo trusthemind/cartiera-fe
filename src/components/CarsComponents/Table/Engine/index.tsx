@@ -1,7 +1,11 @@
 "use client";
 import { FC, useState } from "react";
 import { Table, TableProps, Button, message, Modal, Form, Input } from "antd";
-import { useGetByBrandEnignesQuery, useLazyDeleteEngineByIDQuery, useLazyUpdateEngineQuery } from "@/src/api/engines";
+import {
+  useGetByBrandEnignesQuery,
+  useLazyDeleteEngineByIDQuery,
+  useLazyUpdateEngineQuery,
+} from "@/src/api/engines";
 import { EditEngine, IEngine } from "@/src/api/engines/engines.types";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import s from "../style.module.scss";
@@ -56,7 +60,7 @@ export const EngineTable: FC = () => {
     },
   ];
 
-  const { data: engineData, isLoading, isError } = useGetByBrandEnignesQuery();
+  const { data: engineData, isLoading, isError, refetch:refetchEngine } = useGetByBrandEnignesQuery();
   const [triggerDelete, { isLoading: isDeleting }] = useLazyDeleteEngineByIDQuery();
   const [triggerUpdate, { isLoading: isUpdating }] = useLazyUpdateEngineQuery();
 
@@ -67,6 +71,7 @@ export const EngineTable: FC = () => {
     } catch (error) {
       message.error("Failed to delete engine");
     }
+    refetchEngine();
   };
 
   const handleEdit = (record: IEngine) => {
@@ -85,6 +90,7 @@ export const EngineTable: FC = () => {
     } catch (error) {
       message.error("Failed to update engine");
     }
+    refetchEngine();
   };
 
   return (
@@ -105,19 +111,35 @@ export const EngineTable: FC = () => {
         okText="Save"
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Name" rules={[{ required: true, message: "Please input the engine name!" }]}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true, message: "Please input the engine name!" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="brand" label="Brand" rules={[{ required: true, message: "Please input the brand!" }]}>
+          <Form.Item
+            name="brand"
+            label="Brand"
+            rules={[{ required: true, message: "Please input the brand!" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="fuel" label="Fuel" rules={[{ required: true, message: "Please input the fuel type!" }]}>
+          <Form.Item
+            name="fuel"
+            label="Fuel"
+            rules={[{ required: true, message: "Please input the fuel type!" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="cilinders" label="Cilinders">
             <Input type="number" />
           </Form.Item>
-          <Form.Item name="consumption" label="Consumption" rules={[{ required: true, message: "Please input the consumption!" }]}>
+          <Form.Item
+            name="consumption"
+            label="Consumption"
+            rules={[{ required: true, message: "Please input the consumption!" }]}
+          >
             <Input />
           </Form.Item>
         </Form>
