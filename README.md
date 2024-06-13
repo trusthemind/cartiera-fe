@@ -1,5 +1,4 @@
-# Cartiera
-
+![alt text](assets/images/git_intro.png)
 Cartiera is an innovative online platform designed to streamline the process of buying and selling cars. Our mission is to provide a seamless, user-friendly experience for both car sellers and buyers, ensuring a smooth transaction from start to finish.
 
 ## Getting Started
