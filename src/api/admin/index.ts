@@ -1,6 +1,6 @@
 import { ResponceMessage } from "@/src/constants/types";
 import { api } from "..";
-import { IUser } from "../auth/auth.types";
+import { IUser, RequestUser } from "../auth/auth.types";
 
 const adminApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -11,7 +11,7 @@ const adminApi = api.injectEndpoints({
       }),
       providesTags: ["Auth"],
     }),
-    createUser: build.mutation<ResponceMessage, IUser>({
+    createUser: build.mutation<ResponceMessage, RequestUser>({
       query: (newUser) => ({
         url: "/admin/new-user",
         method: "POST",

@@ -5,15 +5,20 @@ import {
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useCreateUserMutation,
 } from "@/src/api/admin";
-import { IUser } from "@/src/api/auth/auth.types";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { IUser, RequestUser } from "@/src/api/auth/auth.types";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import s from "../style.module.scss";
+import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
+
 export const UsersTable: FC = () => {
   const { data, isLoading, refetch } = useGetUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
   const [updateUser] = useUpdateUserMutation();
+  const [createUser] = useCreateUserMutation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isRegistrationModalVisible, setIsRegistrationModalVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState<Partial<IUser> | null>(null);
 
   const { data: userData } = data ?? { data: [] };
@@ -28,13 +33,18 @@ export const UsersTable: FC = () => {
     }
   };
 
-  const showModal = (user: IUser) => {
+  const showUpdateModal = (user: IUser) => {
     setCurrentUser(user);
     setIsModalVisible(true);
   };
 
+  const showRegistrationModal = () => {
+    setIsRegistrationModalVisible(true);
+  };
+
   const handleCancel = () => {
     setIsModalVisible(false);
+    setIsRegistrationModalVisible(false);
     setCurrentUser(null);
   };
 
@@ -49,6 +59,25 @@ export const UsersTable: FC = () => {
       }
     } catch (error) {
       message.error("Failed to update user");
+    }
+  };
+
+  const handleRegistration = async (values: Partial<RequestUser>) => {
+    if (values) {
+      const newUser: RequestUser = {
+        name: values.name ?? "",
+        email: values.email ?? "",
+        password: values.password ?? "",
+        is_customer: values.is_customer ?? false,
+      };
+      try {
+        await createUser(newUser).unwrap();
+        message.success("User registered successfully");
+        refetch();
+        setIsRegistrationModalVisible(false);
+      } catch (error) {
+        message.error("Failed to register user");
+      }
     }
   };
 
@@ -72,7 +101,7 @@ export const UsersTable: FC = () => {
       title: "Avatar",
       dataIndex: "avatar",
       key: "avatar",
-      render: (text: string) => <Avatar src={text} />,
+      render: (url: string) => <Avatar src={ParseStringToPhoto(url.replace("uploads/", ""))} />,
     },
     {
       title: "Customer ID",
@@ -104,13 +133,13 @@ export const UsersTable: FC = () => {
     {
       title: "",
       key: "actions",
-      render: (text: any, record: IUser) => (
+      render: (_: any, record: IUser) => (
         <div className={s.action}>
-          <Button type="link" onClick={() => showModal(record)}>
-          <EditOutlined />
+          <Button type="default" onClick={() => showUpdateModal(record)}>
+            <EditOutlined />
           </Button>
-          <Button type="link" danger onClick={() => handleDelete(record.ID??0)}>
-          <DeleteOutlined />
+          <Button type="default" danger onClick={() => handleDelete(record.ID ?? 0)}>
+            <DeleteOutlined />
           </Button>
         </div>
       ),
@@ -119,6 +148,15 @@ export const UsersTable: FC = () => {
 
   return (
     <>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={showRegistrationModal}
+        style={{ marginBottom: 16 }}
+      >
+        Add User
+      </Button>
+
       <Table
         dataSource={userData}
         loading={isLoading}
@@ -127,16 +165,43 @@ export const UsersTable: FC = () => {
         rowKey="ID"
       />
 
+      <Modal title="Update User" visible={isModalVisible} onCancel={handleCancel} footer={null}>
+        <Form initialValues={currentUser || {}} onFinish={handleUpdate}>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[{ required: true, message: "Please enter the user's name" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[{ required: true, message: "Please enter the user's email" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="customer_id" label="Customer ID">
+            <Input />
+          </Form.Item>
+          <Form.Item name="is_admin" label="Admin" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Update
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
       <Modal
-        title="Update User"
-        visible={isModalVisible}
+        title="Register User"
+        visible={isRegistrationModalVisible}
         onCancel={handleCancel}
         footer={null}
       >
-        <Form
-          initialValues={currentUser || {}}
-          onFinish={handleUpdate}
-        >
+        <Form onFinish={handleRegistration}>
           <Form.Item
             name="name"
             label="Name"
@@ -152,21 +217,18 @@ export const UsersTable: FC = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            name="customer_id"
-            label="Customer ID"
+            name="password"
+            label="Password"
+            rules={[{ required: true, message: "Please enter a password" }]}
           >
-            <Input />
+            <Input.Password />
           </Form.Item>
-          <Form.Item
-            name="is_admin"
-            label="Admin"
-            valuePropName="checked"
-          >
-            <Switch />
+          <Form.Item name="is_customer" label="Customer" valuePropName="checked">
+            <Switch defaultChecked={true} />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Update
+              Register
             </Button>
           </Form.Item>
         </Form>

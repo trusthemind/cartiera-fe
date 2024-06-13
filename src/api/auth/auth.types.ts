@@ -24,3 +24,7 @@ export interface IUser {
   avatar: string;
   is_admin: boolean;
 }
+
+export interface RequestUser extends RegisterReq {
+  is_customer: boolean;
+}
