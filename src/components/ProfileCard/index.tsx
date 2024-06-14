@@ -34,13 +34,13 @@ export const ProfileCard: FC = () => {
       formData.append("avatar", file.originFileObj as File);
 
       triggerUpload(formData);
-      const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "/") ?? "");
+      const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "") ?? "");
       setAvatarUrl(newAvatarUrl);
     }
   };
 
   useEffect(() => {
-    const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "/") ?? "");
+    const newAvatarUrl = ParseStringToPhoto(data?.avatar.replace("uploads/", "") ?? "");
     setAvatarUrl(newAvatarUrl);
     triggerUser();
   }, [data, avatarData]);
