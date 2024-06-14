@@ -1,21 +1,24 @@
 "use client";
 import { CustomInput } from "@/src/components/CustomInput";
-import { registrationFormValues, RegistrationSchema } from "@/src/utils/validation/registrationSchema";
+import {
+  registrationFormValues,
+  RegistrationSchema,
+} from "@/src/utils/validation/registrationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler, Form } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import s from "./style.module.scss";
-import { Button, Typography } from "antd";
+import { Button, message, Spin, Typography } from "antd";
 import Link from "next/link";
 import { AppRoutes } from "@/src/constants/constants";
 import { useLazyRegistrationQuery } from "@/src/api/auth";
 
 export const RegistrationForm = () => {
-  const [registerTrigger, { data, isLoading, isError }] = useLazyRegistrationQuery();
+  const [registerTrigger, { data: registerData, isLoading, isError }] = useLazyRegistrationQuery();
   const {
     register,
-    watch,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<registrationFormValues>({
     resolver: zodResolver(RegistrationSchema),
@@ -23,9 +26,16 @@ export const RegistrationForm = () => {
   });
 
   const onSubmit: SubmitHandler<registrationFormValues> = async (data) => {
-    registerTrigger({ name: data.name, email: data.email, password: data.password }, true);
+    try {
+      await registerTrigger({ name: data.name, email: data.email, password: data.password }, true).unwrap();
+      reset();
+      message.success(`User with name: ${data.name} has been registered`);
+    } catch (error) {
+      message.error("Registration failed");
+    }
   };
 
+  if (isLoading) return <Spin />;
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
       <CustomInput

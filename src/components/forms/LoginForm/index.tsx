@@ -41,7 +41,7 @@ export const LoginForm = () => {
       const { token, username } = loginData;
       dispatch(setCredentials({ token: token, username: username }));
       Cookies.set("key", token, { secure: true, expires: 1 });
-      push(AppRoutes.Home);
+      window.location.reload();
     }
 
     if (loginError) message.error("Login failed. Please try again.");
