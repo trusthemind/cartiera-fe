@@ -36,5 +36,5 @@ yarn install
 3. Run the appication
 
 ```bash
-yarn
+yarn dev
 ```
