@@ -11,9 +11,11 @@ import { useCurrentPathEqual } from "@/src/helpers/pathEqual";
 const MapCards: FC = () => {
   const { isEqual } = useCurrentPathEqual(AppRoutes.Profile);
   const [carBrand, setCarBrand] = useState<string>("");
-  const { data, isLoading: carsLoading, refetch } = isEqual
-    ? useGetMyCarsQuery()
-    : useGetAllCarsQuery(carBrand);
+  const {
+    data,
+    isLoading: carsLoading,
+    refetch,
+  } = isEqual ? useGetMyCarsQuery() : useGetAllCarsQuery(carBrand);
 
   useEffect(() => {
     if (!isEqual) {
@@ -21,9 +23,13 @@ const MapCards: FC = () => {
     }
   }, [carBrand, refetch, isEqual]);
 
-  if (carsLoading) return <Spin />;
+  if (carsLoading) return <Spin className={s.spinner} />;
 
   const carsData = data?.data || [];
+
+  const handleTriggers = () => {
+    refetch();
+  };
 
   return (
     <div className={s.mapContainer}>
@@ -41,7 +47,7 @@ const MapCards: FC = () => {
         </div>
       )}
       {carsData.map((item: ExICar, id: number) => (
-        <CarCard key={id} car={item} isProfile={isEqual} />
+        <CarCard key={id} car={item} isProfile={isEqual} onRefetch={handleTriggers}  />
       ))}
     </div>
   );

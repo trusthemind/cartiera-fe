@@ -8,7 +8,7 @@ import { persistReducer, persistStore } from "redux-persist";
 const persistConfig = {
   key: "auth",
   storage,
-  whiteList:["token"]
+  whiteList: ["token", "avatar"],
 };
 
 const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer);

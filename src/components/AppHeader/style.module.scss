@@ -17,17 +17,19 @@
         font-size: 24px;
         font-style: italic;
         color: var(--primary-ligth);
+
         @media (width <=768px) {
             width: 100%;
             text-align: center;
         }
-    
+
     }
 
     .navigationList {
         display: flex;
         flex-direction: row;
         gap: 4.5rem;
+        left: -5%;
         list-style: none;
         position: relative;
 

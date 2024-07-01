@@ -7,9 +7,16 @@ import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import cn from "classnames";
 import { DeleteOutlined, EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useLazyDeleteCarbyIDQuery, useLazyUpdateCarByIDQuery } from "@/src/api/car";
+import { useRouter } from "next/navigation";
+import { AppRoutes } from "@/src/constants/constants";
 
-export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfile }) => {
+export const CarCard: FC<{ car: ExICar; isProfile: boolean; onRefetch: () => void }> = ({
+  car,
+  isProfile,
+  onRefetch,
+}) => {
   const [photos, setPhotos] = useState<string[]>([]);
+  const { push } = useRouter();
   const [triggerDelete, { isLoading: isDeleting }] = useLazyDeleteCarbyIDQuery();
   const [triggerUpdate, { isLoading: isUpdating }] = useLazyUpdateCarByIDQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +34,10 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
 
   const handleDelete = async () => {
     await triggerDelete(car.ID ?? 0);
+    onRefetch();
+  };
+  const handleRedirect = () => {
+    if (car.ID) push(AppRoutes.Cars + `/${car.ID}`);
   };
 
   const handleEdit = () => {
@@ -44,6 +55,7 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
 
     await triggerUpdate({ ID: car.ID, ...changedFields });
     setIsModalOpen(false);
+    onRefetch();
   };
 
   if (isDeleting || isUpdating) return <Spin />;
@@ -96,7 +108,7 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
               </Card>
             )}
             <div className={s.buttonsControl}>
-              <Button type="primary" className={s.moreInfo}>
+              <Button onClick={handleRedirect} type="primary" className={s.moreInfo}>
                 <InfoCircleOutlined />
                 More
               </Button>

@@ -34,6 +34,7 @@
 
 html,
 body {
+  background-color: black;
   height: 100%;
   width: 100%;
   overflow-x: hidden;
@@ -42,13 +43,13 @@ body {
 body {
   background: url(../../assets/images/main.bg.svg) center center no-repeat;
   background-size: cover;
-  background-color: black;
 }
 
 main {
   min-height: 100%;
   padding: 1rem;
   padding-top: 4rem;
+  padding-bottom: 6rem;
   display: flex;
   flex-direction: column;
   justify-content: stretch;

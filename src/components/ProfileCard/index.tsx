@@ -12,12 +12,20 @@ import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import Image from "next/image";
 import Link from "next/link";
 import { AppRoutes } from "@/src/constants/constants";
+import { setAvatar } from "@/src/redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 export const ProfileCard: FC = () => {
   const [triggerUser, { data, isLoading, isError }] = useLazyGetUserInfoQuery();
   const [triggerUpload, { data: avatarData, isLoading: avatarLoading }] =
     useLazyUploadAvatarQuery();
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(data?.avatar);
+const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (avatarUrl) 
+     dispatch(setAvatar({ avatar: avatarUrl }));
+  }, [avatarUrl]);
 
   useEffect(() => {
     triggerUser();
@@ -45,7 +53,7 @@ export const ProfileCard: FC = () => {
     triggerUser();
   }, [data, avatarData]);
 
-  console.log(avatarUrl, data?.avatar);
+  console.log(avatarUrl, data?.avatar, "avatar");
 
   if (isLoading && avatarLoading) return <Spin />;
 

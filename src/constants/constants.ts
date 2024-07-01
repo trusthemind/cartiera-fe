@@ -20,8 +20,8 @@ export enum Theme {
 export const NavigationList = [
   { name: "Home", ref: AppRoutes.Home },
   { name: "Cars", ref: AppRoutes.Cars },
-  { name: "Engines", ref: AppRoutes.CreateEngine },
-  // { name: "Details", ref: AppRoutes.Details },
+  // { name: "Engines", ref: AppRoutes.CreateEngine },
+  { name: "Details", ref: AppRoutes.Details },
   { name: "Profile", ref: AppRoutes.Profile },
 ];
 

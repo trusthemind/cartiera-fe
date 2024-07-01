@@ -1,11 +1,35 @@
 .main {
     align-items: center;
 
-    .dreamCar {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+    .swap {
+        background-color: red;
     }
+
+    .block,
+    .block_reverse {
+        width: 100%;
+        margin: 4rem 0;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: stretch;
+
+        .img {
+            width: max-content;
+            height: 14rem;
+            border-radius: 0.5rem;
+        }
+
+        p {
+            line-height: 1.5;
+            text-align: left;
+        }
+    }
+
+    .block_reverse {
+        flex-direction: row-reverse;
+    }
+
 
     @media (width <=768px) {
 
@@ -14,11 +38,6 @@
             height: 20rem;
         }
 
-        .dreamCar {
-            img {
-                width: 100%;
-            }
-        }
     }
 
     @media (width <=420px) {
@@ -28,11 +47,5 @@
             height: 20rem;
         }
 
-        .dreamCar {
-            img {
-                width: 100%;
-                height: 20rem;
-            }
-        }
     }
 }

@@ -1,9 +1,12 @@
 .footerContainer {
-    background-color: var(--primary-dark);
-    position: relative;
+    background-color: rgba(0, 0, 0, 0.75);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     min-height: 4rem;
+    z-index: 100;
     border-top: 1px solid rgba(255, 255, 255, 0.5);
-
+    backdrop-filter: blur(20px);
 
     .textLogo {
         font-family: var(--font-mont);
@@ -22,6 +25,7 @@
         top: 25%;
         justify-content: center;
         gap: 1.5rem;
+        list-style-type: none;
         flex-direction: row;
         text-decoration: none;
 

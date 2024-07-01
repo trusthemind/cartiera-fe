@@ -9,10 +9,23 @@ import { UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import Cookies from "js-cookie";
 import { Logout } from "@/src/helpers/logout";
+import { useAppSelector } from "@/src/redux/hooks";
+import { useEffect, useState } from "react";
 
 export const AppHeader = () => {
   const { isEqual: IsHome } = useCurrentPathEqual(AppRoutes.Home);
-  const key = Cookies.get("key");
+  const [avatarURL, setAvatarURL] = useState(null);
+
+  useEffect(() => {
+    if (document && localStorage) {
+      return () => {
+        const persitAuth = localStorage && localStorage.getItem("persist:auth");
+        const { avatar } = JSON.parse(persitAuth ?? "");
+        setAvatarURL(avatar.replace(/["']/g, ""));
+      };
+    }
+  }, []);
+
   return (
     <header className={s.headerContainer}>
       <h1 className={cn(s.textLogo, { [s.textDarkLogo]: false })}>Cartiera Sales</h1>
@@ -24,24 +37,10 @@ export const AppHeader = () => {
         ))}
       </ul>
       <div className={s.authControlContainer}>
-        {/* {!IsHome && <ThemeSwitcher />} */}
-        <Button
-          href={AppRoutes.Login}
-          type="primary"
-          style={{
-            minWidth: "6rem",
-            // color: "var(--primary-dark)",
-          }}
-        >
-          {"Login"}
-        </Button>
         <Link href={AppRoutes.Profile}>
-          <Avatar
-            style={{ backgroundColor: "var(--purple)" }}
-            icon={<UserOutlined />}
-          />
+          <Avatar src={avatarURL} icon={!avatarURL && <UserOutlined />} />
         </Link>
       </div>
-    </header> 
+    </header>
   );
 };
