@@ -1,3 +1,5 @@
+import { ExIEngine } from "../engines/engines.types";
+
 export interface ICar {
   ID?: number;
   CreatedAt?: string;
@@ -18,7 +20,13 @@ export interface ICar {
 export interface ExICar extends ICar {
   Photos: string;
   owner_id: number;
+  owners_number: number;
   engine_id: number;
+}
+
+export interface CarItem {
+  data: ExICar;
+  engine: ExIEngine;
 }
 
 export interface Vin {
