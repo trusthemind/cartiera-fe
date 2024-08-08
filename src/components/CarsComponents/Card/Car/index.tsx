@@ -75,6 +75,7 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean; onRefetch: () => voi
             <Image
               key={index}
               className={s.img}
+              loading="eager"
               alt="car image"
               src={photo}
               width={isProfile ? 150 : 250}

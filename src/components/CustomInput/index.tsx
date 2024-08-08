@@ -1,10 +1,11 @@
-import React from "react";
+import React, { FC, ReactNode } from "react";
 import { Controller, Control } from "react-hook-form";
-import { Input, Typography } from "antd";
+import { Input, InputProps, Typography } from "antd";
+import { PasswordProps, TextAreaProps } from "antd/es/input";
 
 interface CustomInputProps {
   label?: string;
-  type: "text" | "password" | "number";
+  type: "text" | "password" | "number" | "area";
   placeholder?: string;
   error?: {
     message?: string;
@@ -23,7 +24,7 @@ export const CustomInput: React.FC<CustomInputProps> = ({
   name,
   control,
   rules = {},
-  valueType = "string", 
+  valueType = "string",
 }) => {
   return (
     <div>
@@ -32,23 +33,30 @@ export const CustomInput: React.FC<CustomInputProps> = ({
         name={name}
         control={control}
         rules={rules}
-        render={({ field, fieldState }) =>
-          type === "text" || type === "number" ? (
-            <Input
-              {...field}
-              type={type}
-              value={valueType === "number" ? +field.value : field.value}
-              status={fieldState.error ? "error" : ""}
-              placeholder={placeholder}
-            />
-          ) : (
-            <Input.Password
-              {...field}
-              status={fieldState.error ? "error" : ""}
-              placeholder={placeholder}
-            />
-          )
-        }
+        render={({ field, fieldState }) => {
+          const props = {
+            ...field,
+            status: fieldState.error ? "error" : "" as "" | "error" | "warning",
+            placeholder,
+          };
+          switch (type) {
+            case "password":
+              return <Input.Password {...props} />;
+            case "text":
+            case "number":
+              return (
+                <Input
+                  {...props}
+                  type={type}
+                  value={valueType === "number" ? +field.value : field.value}
+                />
+              );
+            case "area":
+              return <Input.TextArea {...props} />;
+            default:
+              return <Input {...props} />;
+          }
+        }}
       />
       {error && error.message && (
         <Typography style={{ marginLeft: 10.5, marginTop: 2.5, color: "var(--error)" }}>

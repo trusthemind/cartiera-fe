@@ -1,6 +1,6 @@
 import { ResponceMessage } from "@/src/constants/types";
 import { api } from "..";
-import { ExICar, ICar, Vin } from "./cars.types";
+import { CarItem, ExICar, ICar, Vin } from "./cars.types";
 
 const carsApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -17,6 +17,13 @@ const carsApi = api.injectEndpoints({
         url: "cars/all",
         method: "GET",
         params: { brand },
+      }),
+      providesTags: ["Cars"],
+    }),
+    getCarbyID: build.query<CarItem, string>({
+      query: (id) => ({
+        url: `cars/${id}`,
+        method: "GET",
       }),
       providesTags: ["Cars"],
     }),
@@ -57,6 +64,7 @@ const carsApi = api.injectEndpoints({
 export const {
   useLazyCreateCarQuery,
   useGetAllCarsQuery,
+  useGetCarbyIDQuery,
   useLazyGetAllCarsQuery,
   useLazyDeleteCarbyIDQuery,
   useLazyUpdateCarByIDQuery,

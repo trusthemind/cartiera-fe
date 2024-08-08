@@ -21,7 +21,7 @@ export const AppHeader = () => {
       return () => {
         const persitAuth = localStorage && localStorage.getItem("persist:auth");
         const { avatar } = JSON.parse(persitAuth ?? "");
-        setAvatarURL(avatar.replace(/["']/g, ""));
+        setAvatarURL(avatar?.replace(/["']/g, ""));
       };
     }
   }, []);

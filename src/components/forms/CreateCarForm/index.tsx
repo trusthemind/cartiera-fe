@@ -34,7 +34,6 @@ export const CreateCarForm = () => {
         console.log(info.file, info.fileList);
       }
     },
-    
   };
 
   const {
@@ -86,11 +85,11 @@ export const CreateCarForm = () => {
       });
 
       triggerCreateCar(formData);
-      await message.success(createCarData?.message)
+      await message.success(createCarData?.message);
     }
   };
 
-  if (isLoading) return <Spin/>
+  if (isLoading) return <Spin />;
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={"formContainer"}>
       <Dragger {...props} style={{ minHeight: "14rem" }}>
@@ -175,41 +174,36 @@ export const CreateCarForm = () => {
       />
       <div className={s.cardBlock}>
         <CustomInput
-          name="ownerComment"
-          placeholder="ownerComment"
+          name="vinCode"
+          placeholder="vinCode"
           type="text"
           control={control}
-          error={errors.ownerComment}
+          error={errors.vinCode}
         />
         <CustomInput
-          name="ownerNumbers"
-          placeholder="ownerNumbers"
+          name="placement"
+          placeholder="placement"
           type="text"
           control={control}
-          error={errors.ownerNumbers}
+          error={errors.placement}
         />
       </div>
       <CustomInput
-        name="vinCode"
-        placeholder="vinCode"
+        name="ownerNumbers"
+        placeholder="ownerNumbers"
         type="text"
         control={control}
-        error={errors.vinCode}
+        error={errors.ownerNumbers}
       />
       <CustomInput
-        name="placement"
-        placeholder="placement"
-        type="text"
+        name="ownerComment"
+        placeholder="ownerComment"
+        type="area"
         control={control}
-        error={errors.placement}
+        error={errors.ownerComment}
       />
       <div className={s.buttonsBlock}>
-        <Button
-          htmlType="submit"
-          type="primary"
-          size="large"
-          style={{ width: "100%" }}
-        >
+        <Button htmlType="submit" type="primary" size="large" style={{ width: "100%" }}>
           Submit
         </Button>
         <Button

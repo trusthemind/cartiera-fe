@@ -1,0 +1,15 @@
+.swiperWrapper {
+    grid-column: span 2;
+    grid-row: span 2;
+    border-radius: 0.5rem;
+    height: 100%;
+    width: 100%;
+    min-height: 42rem;
+
+    .swiperSlide {
+        height: 100%;
+        width: 100%;
+        min-width: 24rem;
+        min-height: 42rem;
+    }
+}

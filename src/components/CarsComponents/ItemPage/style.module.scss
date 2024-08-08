@@ -1,0 +1,22 @@
+.itemContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+    grid-template-rows: repeat(2, 1fr);
+
+    .infoBlock {
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        h3,
+        p {
+            font-style: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

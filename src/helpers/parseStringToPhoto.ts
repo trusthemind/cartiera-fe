@@ -1,3 +1,3 @@
 export function ParseStringToPhoto(photo: string) {
-    return `${process.env.NEXT_PUBLIC_BACKEND_URL}${photo.trim()}`
+    return `${process.env.NEXT_PUBLIC_BACKEND_URL}/${photo.trim()}`
 }

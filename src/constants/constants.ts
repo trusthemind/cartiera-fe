@@ -4,8 +4,8 @@ export enum AppRoutes {
   Login = "/auth/login",
   Register = "/auth/registration",
   Cars = "/cars",
-  Engine= "/engine",
-  Admin="/admin",
+  Engine = "/engine",
+  Admin = "/admin",
   CreateCar = "/cars/create",
   CreateEngine = "/engine/create",
   Details = "/details",
@@ -34,6 +34,7 @@ export const EngineFuel = {
 };
 
 export const CarsBrand = [
+  { value: "", label: "All" },
   { value: "Acura", label: "Acura" },
   { value: "Alfa Romeo", label: "Alfa Romeo" },
   { value: "Audi", label: "Audi" },
