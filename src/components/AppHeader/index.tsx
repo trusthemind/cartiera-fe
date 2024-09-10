@@ -20,8 +20,8 @@ export const AppHeader = () => {
     if (document && localStorage) {
       return () => {
         const persitAuth = localStorage && localStorage.getItem("persist:auth");
-        const { avatar } = JSON.parse(persitAuth ?? "");
-        setAvatarURL(avatar?.replace(/["']/g, ""));
+        // const { avatar } = JSON.parse(persitAuth ?? "");
+        // setAvatarURL(avatar?.replace(/["']/g, ""));
       };
     }
   }, []);
@@ -38,7 +38,7 @@ export const AppHeader = () => {
       </ul>
       <div className={s.authControlContainer}>
         <Link href={AppRoutes.Profile}>
-          <Avatar src={avatarURL} icon={!avatarURL && <UserOutlined />} />
+          <Avatar src={avatarURL} icon={!avatarURL ? <UserOutlined /> : <></>} />
         </Link>
       </div>
     </header>

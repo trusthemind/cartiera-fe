@@ -1,22 +1,45 @@
+.itemHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 2rem;
+
+    span {
+        position: absolute;
+        right: 1rem;
+    }
+}
+
 .itemContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 1rem;
-    grid-row-gap: 1rem;
     grid-template-rows: repeat(2, 1fr);
+    grid-row-gap: 2rem;
+    grid-column-gap: 4rem;
 
-    .infoBlock {
-
-        h1,
-        h2 {
-            text-align: center;
-        }
-
-        h3,
-        p {
-            font-style: bold;
-            display: flex;
-            justify-content: space-between;
-        }
+    .images {
+        grid-area: 1 / 1 / 2 / 3;
+        min-height: 24rem;
     }
+
+    .mainInfo {
+        grid-area: 1 / 3 / 2 / 4;
+        border-radius: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, var(--yellow) 0px 5px 5px;
+    }
+
+    .secondaryInfo {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+    .sellerInfo {
+        grid-area: 2 / 3 / 3 / 4;
+    }
+}
+
+.itemHeaderSkeleton {
+    position: absolute;
+    left: 50%;
 }

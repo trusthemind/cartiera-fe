@@ -14,6 +14,7 @@
   --font-mont: Mont;
   --font-archivo: Archivo;
   --primary-dark: #030303;
+  --grey: #979797;
   --primary-ligth: #f1f1f1;
   --black: #000;
   --white: #fff;
@@ -22,6 +23,9 @@
   --purple-dark: #6545c3;
   --error: #ef233c;
 
+  --sleketon-start: #fffcef;
+  --skeleton-middle: #f9f2d8;
+  --skeleton-end: #f9efc9;
   --mobile: 475px;
 }
 
@@ -66,3 +70,12 @@ main {
     width: 100%;
   }
 }
+
+// .ant-skeleton-content {
+//   .ant-skeleton-title {
+//     background-image: linear-gradient(90deg,
+//         var(--sleketon-start) 25%,
+//         var(--skeleton-middle) 55%,
+//         var(--skeleton-end) 100%) !important;
+//   }
+// }

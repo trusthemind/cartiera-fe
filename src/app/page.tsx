@@ -9,10 +9,12 @@ import { FAQList } from "../constants/FAQ";
 export default function Home() {
   return (
     <main className={s.main}>
-      <Image quality={100} src={img} priority alt="image" className={s.car} />
+      <Image id="car_image" quality={100} src={img} priority alt="car" className={s.car} />
       <Card styles={{ body: { minHeight: "20rem" } }} className={s.mainCard}>
-        <Typography style={{ fontSize: 36, textAlign: "center" }}>Welcome to Cartiera</Typography>
-        <div className={s.block_reverse}>
+        <Typography data-testid="entryText" style={{ fontSize: 36, textAlign: "center" }}>
+          Welcome to Cartiera
+        </Typography>
+        <div className={s.block_reverse} data-testid="block">
           <Image src={deal} priority className={s.img} alt="deal with new customer car" />
           <p>
             At Cartiera, we make finding your dream car effortless and enjoyable. Our extensive
@@ -21,7 +23,7 @@ export default function Home() {
             perfect car for your lifestyle and budget—all from the comfort of your home.
           </p>
         </div>
-        <div className={s.block}>
+        <div className={s.block} data-testid="block">
           <Image src={market} className={s.img} alt="digit market" />
           <p>
             Cartiera was founded with the mission to revolutionize the car buying experience. We
@@ -33,7 +35,13 @@ export default function Home() {
           </p>
         </div>
         <div className={""}>
-          <Collapse accordion items={FAQList} expandIconPosition="end" ghost />
+          <Collapse
+            data-test={"accordion"}
+            accordion
+            items={FAQList}
+            expandIconPosition="end"
+            ghost
+          />
         </div>
         {/* <div className={s.dreamCar}>
           <Image
