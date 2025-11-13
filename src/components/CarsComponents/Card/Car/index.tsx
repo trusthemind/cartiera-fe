@@ -5,10 +5,13 @@ import Image from "next/image";
 import s from "./style.module.scss";
 import { ParseStringToPhoto } from "@/src/helpers/parseStringToPhoto";
 import cn from "classnames";
-import { DeleteOutlined, EditOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, InfoCircleOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import { useLazyDeleteCarbyIDQuery, useLazyUpdateCarByIDQuery } from "@/src/api/car";
+import { useRouter } from "next/navigation";
+import { AppRoutes } from "@/src/constants/constants";
 
 export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfile }) => {
+  const router = useRouter();
   const [photos, setPhotos] = useState<string[]>([]);
   const [triggerDelete, { isLoading: isDeleting }] = useLazyDeleteCarbyIDQuery();
   const [triggerUpdate, { isLoading: isUpdating }] = useLazyUpdateCarByIDQuery();
@@ -44,6 +47,13 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
 
     await triggerUpdate({ ID: car.ID, ...changedFields });
     setIsModalOpen(false);
+  };
+
+  const handleBuyNow = () => {
+    // Convert price to cents for Stripe (multiply by 100)
+    const amountInCents = Math.round(car.price * 100);
+    const checkoutUrl = `${AppRoutes.Checkout}?car_id=${car.ID}&amount=${amountInCents}&brand=${encodeURIComponent(car.brand)}&model=${encodeURIComponent(car.car_model)}&year=${car.year}`;
+    router.push(checkoutUrl);
   };
 
   if (isDeleting || isUpdating) return <Spin />;
@@ -100,6 +110,17 @@ export const CarCard: FC<{ car: ExICar; isProfile: boolean }> = ({ car, isProfil
                 <InfoCircleOutlined />
                 More
               </Button>
+              {!isProfile && (
+                <Button
+                  type="primary"
+                  className={s.buyNowBtn}
+                  style={{ backgroundColor: "var(--purple)" }}
+                  onClick={handleBuyNow}
+                >
+                  <ShoppingCartOutlined />
+                  Buy Now
+                </Button>
+              )}
               {isProfile && (
                 <>
                   <Button type="default" className={s.bottomBtn} onClick={handleEdit}>
