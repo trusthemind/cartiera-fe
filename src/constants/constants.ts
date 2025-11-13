@@ -10,6 +10,9 @@ export enum AppRoutes {
   CreateEngine = "/engine/create",
   Details = "/details",
   CreateDetail = "/details/create",
+  Checkout = "/checkout",
+  PaymentSuccess = "/payment/success",
+  PaymentHistory = "/payment/history",
 }
 
 export enum Theme {
@@ -22,6 +25,7 @@ export const NavigationList = [
   { name: "Cars", ref: AppRoutes.Cars },
   { name: "Engines", ref: AppRoutes.CreateEngine },
   // { name: "Details", ref: AppRoutes.Details },
+  { name: "Payment History", ref: AppRoutes.PaymentHistory },
   { name: "Profile", ref: AppRoutes.Profile },
 ];
 
